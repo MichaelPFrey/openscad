@@ -37,7 +37,10 @@ public:
     virtual void close();
 
     virtual const std::string & get_name() const;
-
+    
+    virtual unsigned char get_axes();
+    virtual unsigned char get_buttons();
+        
 private:
     int fd;
     int version;

@@ -223,25 +223,15 @@ void Preferences::init() {
         initComboBox(this->comboBoxZoom, Settings::Settings::inputZoom);
         
         
-        for (int i = 0; i < 10; i++ ){   
+        for (int i = 0; i < 10; i++ ){ //ToDo: Do not use magic numbers   
 			std::string s = std::to_string(i);
-
-			const char * c = s.c_str();
-			printf(c);
+			//using findChild() is not ideal. It would be better to create the comboBoxButtons from code
 			QComboBox* box = this->centralwidget->findChild<QComboBox *>(QString::fromStdString("comboBoxButton"+s));
-			if(box == 0){
-				printf("-_");
-			}else{
-				printf("ok");
-			}
-			
-			//Settings::SettingsEntry& entry
-			Settings::SettingsEntry& ent = Settings::Settings::inst()->getSettingEntryByName("button" +s );
-			
-			initComboBox(
-				box,
-				ent
-				);
+			Settings::SettingsEntry* ent = Settings::Settings::inst()->getSettingEntryByName("button" +s );
+			if(box != 0 && ent != nullptr){
+				initComboBox(box,*ent);
+				}
+
 		}
 		
         /*

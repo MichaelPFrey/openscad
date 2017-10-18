@@ -203,18 +203,14 @@ void Settings::visit(SettingsVisitor& visitor)
 	}
 }
 
-SettingsEntry& Settings::getSettingEntryByName(std::string name)
+SettingsEntry* Settings::getSettingEntryByName(std::string name)
 {
 	for (std::list<SettingsEntry *>::iterator it = entries.begin();it != entries.end();it++) {
-		//visitor.handle(*(*it));
-		
 		if(((*it)->name().compare(name))== 0){
-			printf("found");
-			return *(*it);
+			return (*it);
 		}
 	}
-	printf(":-( ");
-	//return;
+	return nullptr;
 }
 
 const Value &Settings::defaultValue(const SettingsEntry& entry)

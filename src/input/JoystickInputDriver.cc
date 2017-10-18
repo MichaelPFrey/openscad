@@ -91,3 +91,11 @@ const std::string & JoystickInputDriver::get_name() const
     static std::string name = "JoystickInputDriver";
     return name;
 }
+
+unsigned char JoystickInputDriver::get_axes(){
+	return axes;
+}
+
+unsigned char JoystickInputDriver::get_buttons(){
+	return buttons;
+}
