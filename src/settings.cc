@@ -91,6 +91,7 @@ static Value axisValues() {
 	return v;
 }
 
+//todo: we should try to avoid magic strings
 static Value buttonValues() {
 	Value::VectorType v;
 	v += ValuePtr(value("None", _("None")));
@@ -200,6 +201,20 @@ void Settings::visit(SettingsVisitor& visitor)
 	for (std::list<SettingsEntry *>::iterator it = entries.begin();it != entries.end();it++) {
 		visitor.handle(*(*it));
 	}
+}
+
+SettingsEntry& Settings::getSettingEntryByName(std::string name)
+{
+	for (std::list<SettingsEntry *>::iterator it = entries.begin();it != entries.end();it++) {
+		//visitor.handle(*(*it));
+		
+		if(((*it)->name().compare(name))== 0){
+			printf("found");
+			return *(*it);
+		}
+	}
+	printf(":-( ");
+	//return;
 }
 
 const Value &Settings::defaultValue(const SettingsEntry& entry)

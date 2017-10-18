@@ -221,6 +221,30 @@ void Preferences::init() {
         initComboBox(this->comboBoxRotationY, Settings::Settings::inputRotateY);
         initComboBox(this->comboBoxRotationZ, Settings::Settings::inputRotateZ);
         initComboBox(this->comboBoxZoom, Settings::Settings::inputZoom);
+        
+        
+        for (int i = 0; i < 10; i++ ){   
+			std::string s = std::to_string(i);
+
+			const char * c = s.c_str();
+			printf(c);
+			QComboBox* box = this->centralwidget->findChild<QComboBox *>(QString::fromStdString("comboBoxButton"+s));
+			if(box == 0){
+				printf("-_");
+			}else{
+				printf("ok");
+			}
+			
+			//Settings::SettingsEntry& entry
+			Settings::SettingsEntry& ent = Settings::Settings::inst()->getSettingEntryByName("button" +s );
+			
+			initComboBox(
+				box,
+				ent
+				);
+		}
+		
+        /*
         initComboBox(this->comboBoxButton0, Settings::Settings::inputButton0);
         initComboBox(this->comboBoxButton1, Settings::Settings::inputButton1);
         initComboBox(this->comboBoxButton2, Settings::Settings::inputButton2);
@@ -231,6 +255,7 @@ void Preferences::init() {
         initComboBox(this->comboBoxButton7, Settings::Settings::inputButton7);
         initComboBox(this->comboBoxButton8, Settings::Settings::inputButton8);
         initComboBox(this->comboBoxButton9, Settings::Settings::inputButton9);
+        * */
 
 	SettingsReader settingsReader;
 	Settings::Settings::inst()->visit(settingsReader);
