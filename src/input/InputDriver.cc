@@ -56,3 +56,11 @@ bool InputDriver::openOnce()
 {
     return false;
 }
+
+unsigned char InputDriver::get_axes(){
+	return 9; //current hard coded number as an default
+}
+
+unsigned char InputDriver::get_buttons(){
+	return 12; //current hard coded number as an default
+}

@@ -189,4 +189,14 @@ public:
      * application start. No attempt to re-open is made.
      */
     virtual bool openOnce();
+    
+    /*
+     * get the number of axes
+     */
+    virtual unsigned char get_axes();
+
+     /*
+     * get the number of buttons
+     */
+    virtual unsigned char get_buttons();
 };
