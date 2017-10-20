@@ -81,6 +81,8 @@ static Value axisValues() {
 			("-" + std::to_string(i+1)),
 			_("Axis ")+std::to_string(i+1)+_(" (inverted)")
 			));
+			//does this actually makes sense and does it work?
+			//Would "Axis %n (inverted)" work?
 	}
 	return v;
 }
