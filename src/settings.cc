@@ -74,12 +74,12 @@ static Value axisValues() {
 	for(int i=0; i<9; i++){
 		v += ValuePtr(value(
 			("+" + std::to_string(i+1)),
-			_("Axis ")+std::to_string(i+1)
+			_("Axis ")+std::to_string(i)
 			));
 			
 		v += ValuePtr(value(
 			("-" + std::to_string(i+1)),
-			_("Axis ")+std::to_string(i+1)+_(" (inverted)")
+			_("Axis ")+std::to_string(i)+_(" (inverted)")
 			));
 			//does this actually makes sense and does it work?
 			//Would "Axis %n (inverted)" work?
