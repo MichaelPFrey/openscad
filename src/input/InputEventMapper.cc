@@ -105,6 +105,10 @@ void InputEventMapper::onTimer()
 			Preferences::inst()->ButtonPressed(i,button_state[i]);
 		}
 	}
+	
+	for (int i = 0; i < 10; i++ ){ 
+		Preferences::inst()->AxesChanged(i,axisValue[i]);
+	}
 }
 
 void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)

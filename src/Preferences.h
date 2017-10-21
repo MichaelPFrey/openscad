@@ -22,6 +22,7 @@ public:
 	void apply() const;
 	void fireEditorConfigChanged() const;
 	void ButtonPressed(int,bool) const;
+	void AxesChanged(int,double) const;
 
 public slots:
 	void actionTriggered(class QAction *);
