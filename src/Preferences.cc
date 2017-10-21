@@ -182,9 +182,11 @@ void Preferences::init() {
 #ifdef ENABLE_EXPERIMENTAL
 	addPrefPage(group, prefsActionFeatures, pageFeatures);
 	addPrefPage(group, prefsActionInput, pageInput);
+	addPrefPage(group, prefsActionInputButton, pageInputButton);
 #else
 	this->toolBar->removeAction(prefsActionFeatures);
 	this->toolBar->removeAction(prefsActionInput);
+	this->toolBar->removeAction(prefsActionInputButton);
 #endif
 	addPrefPage(group, prefsActionAdvanced, pageAdvanced);
 	
