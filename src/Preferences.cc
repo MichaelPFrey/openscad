@@ -947,9 +947,9 @@ void Preferences::create(QStringList colorSchemes)
 }
 
 void Preferences::ButtonPressed(int nr, bool pressed) const{
-	QString Style = "";
+	QString Style = Preferences::EmptyString;
 	if(pressed){
-        Style="font-weight: bold; color: red";
+        Style=Preferences::ActiveStyleString;
 	}
 	switch(nr) {
 		case 0:
