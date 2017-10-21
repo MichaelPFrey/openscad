@@ -238,19 +238,6 @@ void Preferences::init() {
 				}
 
 		}
-		
-        /*
-        initComboBox(this->comboBoxButton0, Settings::Settings::inputButton0);
-        initComboBox(this->comboBoxButton1, Settings::Settings::inputButton1);
-        initComboBox(this->comboBoxButton2, Settings::Settings::inputButton2);
-        initComboBox(this->comboBoxButton3, Settings::Settings::inputButton3);
-        initComboBox(this->comboBoxButton4, Settings::Settings::inputButton4);
-        initComboBox(this->comboBoxButton5, Settings::Settings::inputButton5);
-        initComboBox(this->comboBoxButton6, Settings::Settings::inputButton6);
-        initComboBox(this->comboBoxButton7, Settings::Settings::inputButton7);
-        initComboBox(this->comboBoxButton8, Settings::Settings::inputButton8);
-        initComboBox(this->comboBoxButton9, Settings::Settings::inputButton9);
-        * */
 
 	SettingsReader settingsReader;
 	Settings::Settings::inst()->visit(settingsReader);
@@ -957,6 +944,45 @@ void Preferences::create(QStringList colorSchemes)
     instance->init();
     instance->setupFeaturesPage();
     instance->updateGUI();
+}
+
+void Preferences::ButtonPressed(int nr, bool pressed) const{
+	QString Style = "";
+	if(pressed){
+        Style="font-weight: bold; color: red";
+	}
+	switch(nr) {
+		case 0:
+		this->labelInputButton0->setStyleSheet(Style);
+		break;
+		case 1:
+		this->labelInputButton1->setStyleSheet(Style);
+		break;
+		case 2:
+		this->labelInputButton2->setStyleSheet(Style);
+		break;
+		case 3:
+		this->labelInputButton3->setStyleSheet(Style);
+		break;
+		case 4:
+		this->labelInputButton4->setStyleSheet(Style);
+		break;
+		case 5:
+		this->labelInputButton5->setStyleSheet(Style);
+		break;
+		case 6:
+		this->labelInputButton6->setStyleSheet(Style);
+		break;
+		case 7:
+		this->labelInputButton7->setStyleSheet(Style);
+		break;
+		case 8:
+		this->labelInputButton8->setStyleSheet(Style);
+		break;
+		case 9:
+		this->labelInputButton9->setStyleSheet(Style);
+		break;
+	}
 }
 
 Preferences *Preferences::inst() {

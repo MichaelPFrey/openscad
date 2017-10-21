@@ -27,6 +27,7 @@
 #include "InputDriverManager.h"
 #include "settings.h"
 
+#include "Preferences.h"
 #include <math.h>
 #include <QSettings>
 
@@ -96,6 +97,14 @@ void InputEventMapper::onTimer()
         InputEvent *inputEvent = new InputEventZoom(z);
         InputDriverManager::instance()->postEvent(inputEvent);
     }
+    
+    //update the UI on time, NOT event as a joystick can fire a high rate of events
+    for (int i = 0; i < 10; i++ ){   
+		if(button_state[i] != button_state_last[i]){
+			button_state_last[i] = button_state[i];
+			Preferences::inst()->ButtonPressed(i,button_state[i]);
+		}
+	}
 }
 
 void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)
@@ -105,6 +114,19 @@ void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)
 
 void InputEventMapper::onButtonChanged(InputEventButtonChanged *event)
 {
+	int button = event->button;
+	
+	//Do NOT update the UI during an event.
+	//A gamepad with turbo function can fire a high update rate,
+	//which is able to crash the UI!
+	//Preferences::inst()->ButtonPressed(button,event->down);
+	
+	if (event->down) {
+		this->button_state[button]=true;
+	}else{
+		this->button_state[button]=false;
+	}
+
     if (!event->down) {
         return;
     }

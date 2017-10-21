@@ -21,6 +21,7 @@ public:
 	void init();
 	void apply() const;
 	void fireEditorConfigChanged() const;
+	void ButtonPressed(int,bool) const;
 
 public slots:
 	void actionTriggered(class QAction *);
