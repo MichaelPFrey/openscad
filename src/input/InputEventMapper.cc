@@ -209,12 +209,24 @@ void InputEventMapper::onInputMappingUpdated()
     rotate[1] = parseSettingValue(s->get(Settings::Settings::inputRotateY).toString());
     rotate[2] = parseSettingValue(s->get(Settings::Settings::inputRotateZ).toString());
     zoom = parseSettingValue(s->get(Settings::Settings::inputZoom).toString());
+
+    for (int i = 0; i < 10; i++ ){ 
+		std::string is = std::to_string(i);
+		Settings::SettingsEntry* ent =s->getSettingEntryByName("axisTrimm" +is);
+		axisTrimmValue[i] = s->get(*ent).toDouble();
+	}
 }
 
 void InputEventMapper::onAxisTrimm()
 {
+	Settings::Settings *s = Settings::Settings::inst();
 	for (int i = 0; i < 10; i++ ){ 
+		std::string is = std::to_string(i);
+		
 		axisTrimmValue[i] = axisRawValue[i];
 		axisValue[i] = axisRawValue[i]-axisTrimmValue[i];
+		
+		Settings::SettingsEntry* ent =s->getSettingEntryByName("axisTrimm" +is);
+		s->set(*ent, axisTrimmValue[i]);
 	}
 }

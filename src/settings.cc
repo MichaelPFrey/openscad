@@ -81,6 +81,7 @@ static Value axisValues() {
 			("-" + std::to_string(i+1)),
 			_("Axis ")+std::to_string(i)+_(" (inverted)")
 			));
+			//_() is for translation
 			//does this actually makes sense and does it work?
 			//Would "Axis %n (inverted)" work?
 	}
@@ -281,4 +282,14 @@ SettingsEntry Settings::inputButton6("input", "button6", buttonValues(), Value("
 SettingsEntry Settings::inputButton7("input", "button7", buttonValues(), Value("None"));
 SettingsEntry Settings::inputButton8("input", "button8", buttonValues(), Value("None"));
 SettingsEntry Settings::inputButton9("input", "button9", buttonValues(), Value("None"));
+SettingsEntry Settings::axisTrimm0("input", "axisTrimm0", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm1("input", "axisTrimm1", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm2("input", "axisTrimm2", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm3("input", "axisTrimm3", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm4("input", "axisTrimm4", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm5("input", "axisTrimm5", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm6("input", "axisTrimm6", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm7("input", "axisTrimm7", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm8("input", "axisTrimm8", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisTrimm9("input", "axisTrimm9", Value(0.00), Value("0.00"));
 }

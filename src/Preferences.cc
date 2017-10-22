@@ -62,6 +62,9 @@ class SettingsReader : public Settings::SettingsVisitor
 	try {
 		switch (entry.defaultValue().type()) {
 		case Value::ValueType::STRING:
+			if(entry.defaultValue()=="0.00"){
+				return Value(boost::lexical_cast<double>(trimmed_value));
+			}
 			return Value(trimmed_value);
 		case Value::ValueType::NUMBER:
 			return Value(boost::lexical_cast<int>(trimmed_value));
