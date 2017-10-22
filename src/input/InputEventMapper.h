@@ -37,6 +37,8 @@ class InputEventMapper : public QObject, public InputEventHandler
 private:
     QTimer *timer;
     double axisValue[10];
+    double axisRawValue[10];
+    double axisTrimmValue[10];
     QString actions[10];
     int translate[6];
     int rotate[3];
@@ -48,6 +50,9 @@ private:
     
 	bool button_state[10];
 	bool button_state_last[10];
+
+    static InputEventMapper *self;
+
 public:
     InputEventMapper();
     virtual ~InputEventMapper();
@@ -61,7 +66,10 @@ public:
     void onZoomEvent(class InputEventZoom *event);
 
     void onInputMappingUpdated();
-
+    
+    void onAxisTrimm();
+    
+    static InputEventMapper * instance();
 private slots:
     void onTimer();
 };

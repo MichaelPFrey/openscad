@@ -49,6 +49,8 @@ public slots:
 	void on_editorType_currentIndexChanged(const QString &);
 
 	void on_checkBoxShowWarningsIn3dView_toggled(bool);
+	
+	void on_AxisTrimm();
   //
 	// editor settings
   //

@@ -31,22 +31,38 @@
 #include <math.h>
 #include <QSettings>
 
+InputEventMapper * InputEventMapper::self = 0;
+
 InputEventMapper::InputEventMapper()
 {
     for (int a = 0;a < 10;a++) {
         axisValue[a] = 0;
+        axisTrimmValue[a] = 0;
     }
-
+    for (int a = 0;a < 10;a++) {
+		button_state[a]=false;
+		button_state_last[a]=false;
+	}
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
     timer->start(30);
 
     onInputMappingUpdated();
+
+    self=this;
 }
 
 InputEventMapper::~InputEventMapper()
 {
 
+}
+
+InputEventMapper * InputEventMapper::instance()
+{
+    if (!self) {
+        self = new InputEventMapper();
+    }
+    return self;
 }
 
 double InputEventMapper::scale(double val)
@@ -113,7 +129,8 @@ void InputEventMapper::onTimer()
 
 void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)
 {
-    axisValue[event->axis] = event->value;
+	axisRawValue[event->axis] = event->value;
+    axisValue[event->axis] = event->value-axisTrimmValue[event->axis];
 }
 
 void InputEventMapper::onButtonChanged(InputEventButtonChanged *event)
@@ -192,4 +209,12 @@ void InputEventMapper::onInputMappingUpdated()
     rotate[1] = parseSettingValue(s->get(Settings::Settings::inputRotateY).toString());
     rotate[2] = parseSettingValue(s->get(Settings::Settings::inputRotateZ).toString());
     zoom = parseSettingValue(s->get(Settings::Settings::inputZoom).toString());
+}
+
+void InputEventMapper::onAxisTrimm()
+{
+	for (int i = 0; i < 10; i++ ){ 
+		axisTrimmValue[i] = axisRawValue[i];
+		axisValue[i] = axisRawValue[i]-axisTrimmValue[i];
+	}
 }

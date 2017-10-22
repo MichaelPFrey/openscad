@@ -41,6 +41,7 @@
 #include "colormap.h"
 #include "rendersettings.h"
 #include "QSettingsCached.h"
+#include "input/InputEventMapper.h"
 
 Preferences *Preferences::instance = nullptr;
 
@@ -191,6 +192,7 @@ void Preferences::init() {
 	addPrefPage(group, prefsActionAdvanced, pageAdvanced);
 	
 	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(actionTriggered(QAction*)));
+	connect(this->pushButtonAxisTrimm, SIGNAL(clicked()), this, SLOT(on_AxisTrimm()));
 
 	prefsAction3DView->setChecked(true);
 	this->actionTriggered(this->prefsAction3DView);
@@ -515,6 +517,11 @@ void Preferences::on_checkBoxShowWarningsIn3dView_toggled(bool val)
 {
 	Settings::Settings::inst()->set(Settings::Settings::showWarningsIn3dView, Value(val));
 	writeSettings();
+}
+
+void Preferences::on_AxisTrimm()
+{
+	InputEventMapper::instance()->onAxisTrimm();
 }
 
 void Preferences::on_spinBoxIndentationWidth_valueChanged(int val)
