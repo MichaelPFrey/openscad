@@ -51,6 +51,7 @@ public slots:
 	void on_checkBoxShowWarningsIn3dView_toggled(bool);
 	
 	void on_AxisTrimm();
+	void on_AxisTrimmReset();
   //
 	// editor settings
   //

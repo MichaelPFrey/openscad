@@ -62,11 +62,11 @@ class SettingsReader : public Settings::SettingsVisitor
 	try {
 		switch (entry.defaultValue().type()) {
 		case Value::ValueType::STRING:
-			if(entry.defaultValue()=="0.00"){
+			if(entry.defaultValue()=="0.00" || entry.defaultValue()=="0.10"){ //ToDo: Clean me up
 				return Value(boost::lexical_cast<double>(trimmed_value));
 			}
 			return Value(trimmed_value);
-		case Value::ValueType::NUMBER:
+		case Value::ValueType::NUMBER: //ToDo: Clean me up - Number is actually a double
 			return Value(boost::lexical_cast<int>(trimmed_value));
 		case Value::ValueType::BOOL:
 			boost::to_lower(trimmed_value);
@@ -196,7 +196,7 @@ void Preferences::init() {
 	
 	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(actionTriggered(QAction*)));
 	connect(this->pushButtonAxisTrimm, SIGNAL(clicked()), this, SLOT(on_AxisTrimm()));
-
+	connect(this->pushButtonAxisTrimmReset, SIGNAL(clicked()), this, SLOT(on_AxisTrimmReset()));
 	prefsAction3DView->setChecked(true);
 	this->actionTriggered(this->prefsAction3DView);
 
@@ -525,6 +525,11 @@ void Preferences::on_checkBoxShowWarningsIn3dView_toggled(bool val)
 void Preferences::on_AxisTrimm()
 {
 	InputEventMapper::instance()->onAxisTrimm();
+}
+
+void Preferences::on_AxisTrimmReset()
+{
+	InputEventMapper::instance()->onAxisTrimmReset();
 }
 
 void Preferences::on_spinBoxIndentationWidth_valueChanged(int val)

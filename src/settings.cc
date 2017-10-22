@@ -292,4 +292,14 @@ SettingsEntry Settings::axisTrimm6("input", "axisTrimm6", Value(0.00), Value("0.
 SettingsEntry Settings::axisTrimm7("input", "axisTrimm7", Value(0.00), Value("0.00"));
 SettingsEntry Settings::axisTrimm8("input", "axisTrimm8", Value(0.00), Value("0.00"));
 SettingsEntry Settings::axisTrimm9("input", "axisTrimm9", Value(0.00), Value("0.00"));
+SettingsEntry Settings::axisDeadzone0("input", "axisDeadzone0", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone1("input", "axisDeadzone1", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone2("input", "axisDeadzone2", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone3("input", "axisDeadzone3", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone4("input", "axisDeadzone4", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone5("input", "axisDeadzone5", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone6("input", "axisDeadzone6", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone7("input", "axisDeadzone7", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone8("input", "axisDeadzone8", Value(0.00), Value("0.10"));
+SettingsEntry Settings::axisDeadzone9("input", "axisDeadzone9", Value(0.00), Value("0.10"));
 }

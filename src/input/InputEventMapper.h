@@ -39,6 +39,7 @@ private:
     double axisValue[10];
     double axisRawValue[10];
     double axisTrimmValue[10];
+    double axisDeadzone[10];
     QString actions[10];
     int translate[6];
     int rotate[3];
@@ -68,7 +69,7 @@ public:
     void onInputMappingUpdated();
     
     void onAxisTrimm();
-    
+    void onAxisTrimmReset();
     static InputEventMapper * instance();
 private slots:
     void onTimer();
