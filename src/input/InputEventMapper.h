@@ -67,6 +67,7 @@ public:
     void onZoomEvent(class InputEventZoom *event);
 
     void onInputMappingUpdated();
+    void onInputCalibrationUpdated();
     
     void onAxisTrimm();
     void onAxisTrimmReset();

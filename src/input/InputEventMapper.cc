@@ -35,10 +35,10 @@ InputEventMapper * InputEventMapper::self = 0;
 
 InputEventMapper::InputEventMapper()
 {
-    for (int a = 0;a < 10;a++) {
+    for (int a = 0;a < 9;a++) {
         axisValue[a] = 0;
         axisTrimmValue[a] = 0;
-        axisDeadzone[a] = 0.2;
+        axisDeadzone[a] = 0.1;
     }
     for (int a = 0;a < 10;a++) {
 		button_state[a]=false;
@@ -49,6 +49,8 @@ InputEventMapper::InputEventMapper()
     timer->start(30);
 
     onInputMappingUpdated();
+    onInputCalibrationUpdated();
+	//readSettings();
 
     self=this;
 }
@@ -86,7 +88,7 @@ double InputEventMapper::getAxisValue(int config)
 
 void InputEventMapper::onTimer()
 {
-    const double threshold = 0.1; //replace treshold with deadzone
+    const double threshold = 0.01; //replace treshold with deadzone
 
     double tx = getAxisValue(translate[0]);
     double ty = getAxisValue(translate[1]);
@@ -213,12 +215,25 @@ void InputEventMapper::onInputMappingUpdated()
     rotate[1] = parseSettingValue(s->get(Settings::Settings::inputRotateY).toString());
     rotate[2] = parseSettingValue(s->get(Settings::Settings::inputRotateZ).toString());
     zoom = parseSettingValue(s->get(Settings::Settings::inputZoom).toString());
+}
 
-    for (int i = 0; i < 10; i++ ){ 
-		std::string is = std::to_string(i);
-		Settings::SettingsEntry* ent =s->getSettingEntryByName("axisTrimm" +is);
-		axisTrimmValue[i] = s->get(*ent).toDouble();
-	}
+void InputEventMapper::onInputCalibrationUpdated()
+{
+	//Axis
+	for (int a = 0;a < 9;a++) {
+		std::string s = std::to_string(a);
+		Settings::Settings *setting = Settings::Settings::inst();
+		Settings::SettingsEntry* ent;
+		
+		ent = Settings::Settings::inst()->getSettingEntryByName("axisTrimm" + s );
+		if(ent != nullptr){
+			axisTrimmValue[a] = (double)setting->get(*ent).toDouble();
+		}
+		ent = Settings::Settings::inst()->getSettingEntryByName("axisDeadzone" + s );
+		if(ent != nullptr){
+			axisDeadzone[a] = (double)setting->get(*ent).toDouble();
+		}
+    }
 }
 
 void InputEventMapper::onAxisTrimm()

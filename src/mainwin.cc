@@ -181,7 +181,10 @@ MainWindow::MainWindow(const QString &filename)
 		editor = new LegacyEditor(editorDockContents);
 
 	Preferences::create(editor->colorSchemes());
+
+		//todo: mark as experimetnal
         connect(Preferences::inst(), SIGNAL(inputMappingChanged()), InputDriverManager::instance(), SLOT(onInputMappingUpdated()), Qt::UniqueConnection);
+        connect(Preferences::inst(), SIGNAL(inputCalibrationChanged()), InputDriverManager::instance(), SLOT(onInputCalibrationUpdated()), Qt::UniqueConnection);
 
 #ifdef USE_SCINTILLA_EDITOR
 	if (useScintilla) {
