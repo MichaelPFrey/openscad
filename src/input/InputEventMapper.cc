@@ -50,7 +50,6 @@ InputEventMapper::InputEventMapper()
 
     onInputMappingUpdated();
     onInputCalibrationUpdated();
-	//readSettings();
 
     self=this;
 }
@@ -148,17 +147,17 @@ void InputEventMapper::onButtonChanged(InputEventButtonChanged *event)
 	//which is able to crash the UI!
 	//Preferences::inst()->ButtonPressed(button,event->down);
 	
-	if (event->down) {
-		this->button_state[button]=true;
-	}else{
-		this->button_state[button]=false;
-	}
-
-    if (!event->down) {
-        return;
-    }
-
     if (event->button < 10) {
+		if (event->down) {
+			this->button_state[button]=true;
+		}else{
+			this->button_state[button]=false;
+		}
+
+		if (!event->down) {
+			return;
+		}
+
         std::string action = actions[event->button].toStdString();
         if (!action.empty()) {
             InputEvent *inputEvent = new InputEventAction(action, false);
