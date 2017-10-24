@@ -183,6 +183,7 @@ void Preferences::init() {
 #else
 	this->toolBar->removeAction(prefsActionUpdate);
 #endif
+
 #ifdef ENABLE_EXPERIMENTAL
 	addPrefPage(group, prefsActionFeatures, pageFeatures);
 	addPrefPage(group, prefsActionInput, pageInput);
@@ -192,6 +193,7 @@ void Preferences::init() {
 	this->toolBar->removeAction(prefsActionInput);
 	this->toolBar->removeAction(prefsActionInputButton);
 #endif
+
 	addPrefPage(group, prefsActionAdvanced, pageAdvanced);
 	
 	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(actionTriggered(QAction*)));
@@ -247,7 +249,6 @@ void Preferences::init() {
 			
 		for (int i = 0; i < 9; i++ ){
 			std::string s = std::to_string(i);
-			//Settings::Settings *setting = Settings::Settings::inst();
 			
 			QDoubleSpinBox* spin;
 			Settings::SettingsEntry* ent;
@@ -1159,38 +1160,10 @@ void Preferences::ButtonPressed(int nr, bool pressed) const{
 	if(pressed){
         Style=Preferences::ActiveStyleString;
 	}
-	switch(nr) {
-		case 0:
-		this->labelInputButton0->setStyleSheet(Style);
-		break;
-		case 1:
-		this->labelInputButton1->setStyleSheet(Style);
-		break;
-		case 2:
-		this->labelInputButton2->setStyleSheet(Style);
-		break;
-		case 3:
-		this->labelInputButton3->setStyleSheet(Style);
-		break;
-		case 4:
-		this->labelInputButton4->setStyleSheet(Style);
-		break;
-		case 5:
-		this->labelInputButton5->setStyleSheet(Style);
-		break;
-		case 6:
-		this->labelInputButton6->setStyleSheet(Style);
-		break;
-		case 7:
-		this->labelInputButton7->setStyleSheet(Style);
-		break;
-		case 8:
-		this->labelInputButton8->setStyleSheet(Style);
-		break;
-		case 9:
-		this->labelInputButton9->setStyleSheet(Style);
-		break;
-	}
+	std::string number = std::to_string(nr);
+			
+	QLabel* label = this->centralwidget->findChild<QLabel *>(QString::fromStdString("labelInputButton"+number));
+	label->setStyleSheet(Style);
 }
 
 void Preferences::AxesChanged(int nr, double val) const{
