@@ -142,24 +142,28 @@ void InputDriverManager::postEvent(InputEvent *event)
     }
 }
 
-unsigned char InputDriver::get_axes(){
+unsigned char InputDriverManager::get_axes(){
 	char cnt = 0;
 	for (drivers_t::iterator it = drivers.begin();it != drivers.end();it++) {
         InputDriver *driver = (*it);
         if(driver->isOpen()){
-			cnt = std::max(cnt,driver->get_axes());
+			char a = driver->get_axes();
+			cnt = std::max(cnt,a);
 		}
 	}
+	return cnt;
 }
 
-unsigned char InputDriver::get_buttons(){
+unsigned char InputDriverManager::get_buttons(){
 	char cnt = 0;
 	for (drivers_t::iterator it = drivers.begin();it != drivers.end();it++) {
         InputDriver *driver = (*it);
         if(driver->isOpen()){
-			cnt = std::max(cnt,driver->get_buttons());
+			char b = driver->get_buttons();
+			cnt = std::max(cnt,b);
 		}
 	}
+	return cnt;
 }
 
 void InputDriverManager::onFocusChanged(QWidget *, QWidget *current)
