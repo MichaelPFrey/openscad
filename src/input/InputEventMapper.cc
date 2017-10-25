@@ -35,12 +35,12 @@ InputEventMapper * InputEventMapper::self = 0;
 
 InputEventMapper::InputEventMapper()
 {
-    for (int a = 0;a < 9;a++) {
+    for (int a = 0;a < AXIS;a++) {
         axisValue[a] = 0;
         axisTrimmValue[a] = 0;
         axisDeadzone[a] = 0.1;
     }
-    for (int a = 0;a < 10;a++) {
+    for (int a = 0;a < BUTTONS;a++) {
 		button_state[a]=false;
 		button_state_last[a]=false;
 	}
@@ -120,14 +120,14 @@ void InputEventMapper::onTimer()
     }
     
     //update the UI on time, NOT event as a joystick can fire a high rate of events
-    for (int i = 0; i < 10; i++ ){   
+    for (int i = 0; i < BUTTONS; i++ ){   
 		if(button_state[i] != button_state_last[i]){
 			button_state_last[i] = button_state[i];
 			Preferences::inst()->ButtonPressed(i,button_state[i]);
 		}
 	}
 	
-	for (int i = 0; i < 10; i++ ){ 
+	for (int i = 0; i < AXIS; i++ ){ 
 		Preferences::inst()->AxesChanged(i,axisValue[i]);
 	}
 }
@@ -147,7 +147,7 @@ void InputEventMapper::onButtonChanged(InputEventButtonChanged *event)
 	//which is able to crash the UI!
 	//Preferences::inst()->ButtonPressed(button,event->down);
 	
-    if (event->button < 10) {
+    if (event->button < BUTTONS) {
 		if (event->down) {
 			this->button_state[button]=true;
 		}else{
@@ -198,7 +198,7 @@ void InputEventMapper::onInputMappingUpdated()
 {
     Settings::Settings *s = Settings::Settings::inst();
     
-    for (int i = 0; i < 10; i++ ){ //ToDo: Do not use magic numbers   
+    for (int i = 0; i < BUTTONS; i++ ){
 		std::string is = std::to_string(i);
 		Settings::SettingsEntry* ent =s->getSettingEntryByName("button" +is);
 		actions[i] =(s->get(*ent).toString().c_str());
@@ -219,7 +219,7 @@ void InputEventMapper::onInputMappingUpdated()
 void InputEventMapper::onInputCalibrationUpdated()
 {
 	//Axis
-	for (int a = 0;a < 9;a++) {
+	for (int a = 0;a < AXIS;a++) {
 		std::string s = std::to_string(a);
 		Settings::Settings *setting = Settings::Settings::inst();
 		Settings::SettingsEntry* ent;
@@ -238,7 +238,7 @@ void InputEventMapper::onInputCalibrationUpdated()
 void InputEventMapper::onAxisTrimm()
 {
 	Settings::Settings *s = Settings::Settings::inst();
-	for (int i = 0; i < 10; i++ ){ 
+	for (int i = 0; i < AXIS; i++ ){ 
 		std::string is = std::to_string(i);
 		
 		axisTrimmValue[i] = axisRawValue[i];
@@ -251,7 +251,7 @@ void InputEventMapper::onAxisTrimm()
 void InputEventMapper::onAxisTrimmReset()
 {
 	Settings::Settings *s = Settings::Settings::inst();
-	for (int i = 0; i < 10; i++ ){ 
+	for (int i = 0; i < AXIS; i++ ){ 
 		std::string is = std::to_string(i);
 		
 		axisTrimmValue[i] = 0.00;
