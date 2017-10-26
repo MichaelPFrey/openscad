@@ -269,7 +269,7 @@ void InputEventMapper::onAxisTrimmReset()
 	}
 }
 
-void InputEventMapper::close(){
+void InputEventMapper::stop(){
 	stopRequest=true;
 	timer->stop();
 }

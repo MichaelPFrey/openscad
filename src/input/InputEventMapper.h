@@ -76,7 +76,7 @@ public:
     
     void onAxisTrimm();
     void onAxisTrimmReset();
-	void close();
+	void stop();
 
     static InputEventMapper * instance();
 private slots:
