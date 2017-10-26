@@ -47,4 +47,5 @@ private:
     unsigned char axes;
     unsigned char buttons;
     char name[1024];
+	bool stopRequest;
 };

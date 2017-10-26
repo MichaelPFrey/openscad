@@ -129,6 +129,15 @@ std::string InputDriverManager::listDrivers()
     return stream.str();
 }
 
+void InputDriverManager::closeDrivers()
+{
+    for (drivers_t::iterator it = drivers.begin();it != drivers.end();it++) {
+        InputDriver *driver = (*it);
+        driver->close();
+    }
+}
+
+
 void InputDriverManager::sendEvent(InputEvent *event)
 {
     event->deliver(&mapper);

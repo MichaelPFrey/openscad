@@ -61,6 +61,7 @@ public:
 
     void init();
     std::string listDrivers();
+    void closeDrivers();
     void registerDriver(InputDriver *driver);
     void unregisterDriver(InputDriver *driver);
     void registerActions(const QList<QAction *> &actions);

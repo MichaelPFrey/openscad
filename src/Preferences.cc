@@ -42,6 +42,7 @@
 #include "rendersettings.h"
 #include "QSettingsCached.h"
 #include "input/InputEventMapper.h"
+#include "input/InputDriverManager.h"
 
 Preferences *Preferences::instance = nullptr;
 
@@ -329,6 +330,7 @@ void Preferences::featuresCheckBoxToggled(bool state)
 		this->toolBar->removeAction(prefsActionInput);
 		this->toolBar->removeAction(prefsActionInputButton);
 		//ToDo: Acctually kill the input driver
+		InputDriverManager::instance()->closeDrivers();
 	}
 }
 
@@ -380,6 +382,7 @@ Preferences::setupFeaturesPage()
 	if (!Feature::ExperimentalInputDriver.is_enabled()) {
 		this->toolBar->removeAction(prefsActionInput);
 		this->toolBar->removeAction(prefsActionInputButton);
+		
 	}
 }
 
