@@ -48,6 +48,7 @@ void JoystickInputDriver::run()
         }
     }
     ::close(fd);
+    printf("good bye joystick");
 }
 
 JoystickInputDriver::JoystickInputDriver() : fd(-1)
