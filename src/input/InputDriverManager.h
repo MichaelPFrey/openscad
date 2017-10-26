@@ -53,6 +53,8 @@ private:
 
     void postEvent(InputEvent *event);
 
+	volatile bool stopRequest;
+	
 public:
     InputDriverManager(void);
     virtual ~InputDriverManager(void);
@@ -65,6 +67,7 @@ public:
     void registerDriver(InputDriver *driver);
     void unregisterDriver(InputDriver *driver);
     void registerActions(const QList<QAction *> &actions);
+	void close();
 
     static InputDriverManager * instance();
 

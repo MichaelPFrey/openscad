@@ -35,6 +35,8 @@ InputEventMapper * InputEventMapper::self = 0;
 
 InputEventMapper::InputEventMapper()
 {
+	stopRequest=false;
+	
     for (int a = 0;a < AXIS;a++) {
         axisValue[a] = 0;
         axisTrimmValue[a] = 0;
@@ -134,12 +136,16 @@ void InputEventMapper::onTimer()
 
 void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)
 {
+	if (stopRequest) return;
+
 	axisRawValue[event->axis] = event->value;
     axisValue[event->axis] = event->value-axisTrimmValue[event->axis];
 }
 
 void InputEventMapper::onButtonChanged(InputEventButtonChanged *event)
 {
+	if (stopRequest) return;
+	
 	int button = event->button;
 	
 	//Do NOT update the UI during an event.
@@ -248,6 +254,7 @@ void InputEventMapper::onAxisTrimm()
 		s->set(*ent, axisTrimmValue[i]);
 	}
 }
+
 void InputEventMapper::onAxisTrimmReset()
 {
 	Settings::Settings *s = Settings::Settings::inst();
@@ -260,4 +267,9 @@ void InputEventMapper::onAxisTrimmReset()
 		Settings::SettingsEntry* ent =s->getSettingEntryByName("axisTrimm" +is);
 		s->set(*ent, axisTrimmValue[i]);
 	}
+}
+
+void InputEventMapper::close(){
+	stopRequest=true;
+	timer->stop();
 }

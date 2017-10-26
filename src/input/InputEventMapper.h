@@ -57,6 +57,8 @@ private:
 
     static InputEventMapper *self;
 
+	volatile bool stopRequest;
+
 public:
     InputEventMapper();
     virtual ~InputEventMapper();
@@ -74,6 +76,8 @@ public:
     
     void onAxisTrimm();
     void onAxisTrimmReset();
+	void close();
+
     static InputEventMapper * instance();
 private slots:
     void onTimer();

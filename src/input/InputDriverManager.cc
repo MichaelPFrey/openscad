@@ -24,7 +24,7 @@
  *
  */
 #include "InputDriverManager.h"
-
+#include "InputEventMapper.h"
 #include "printutils.h"
 
 InputDriverManager * InputDriverManager::self = 0;
@@ -131,6 +131,9 @@ std::string InputDriverManager::listDrivers()
 
 void InputDriverManager::closeDrivers()
 {
+	timer->stop();
+	stopRequest = true;
+	InputEventMapper::instance()->close();
     for (drivers_t::iterator it = drivers.begin();it != drivers.end();it++) {
         InputDriver *driver = (*it);
         driver->close();
