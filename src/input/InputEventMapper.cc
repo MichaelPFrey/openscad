@@ -203,7 +203,6 @@ int InputEventMapper::parseSettingValue(const std::string val)
 void InputEventMapper::onInputMappingUpdated()
 {
     Settings::Settings *s = Settings::Settings::inst();
-    
     for (int i = 0; i < BUTTONS; i++ ){
 		std::string is = std::to_string(i);
 		Settings::SettingsEntry* ent =s->getSettingEntryByName("button" +is);

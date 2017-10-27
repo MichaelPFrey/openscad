@@ -141,7 +141,6 @@ void InputDriverManager::closeDrivers()
     }
 }
 
-
 void InputDriverManager::sendEvent(InputEvent *event)
 {
     event->deliver(&mapper);

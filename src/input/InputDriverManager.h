@@ -49,11 +49,12 @@ private:
 
     QTimer *timer;
 
+	volatile bool stopRequest;
+	
     static InputDriverManager *self;
 
     void postEvent(InputEvent *event);
 
-	volatile bool stopRequest;
 	
 public:
     InputDriverManager(void);
@@ -63,11 +64,10 @@ public:
 
     void init();
     std::string listDrivers();
-    void closeDrivers();
     void registerDriver(InputDriver *driver);
     void unregisterDriver(InputDriver *driver);
+    void closeDrivers();
     void registerActions(const QList<QAction *> &actions);
-	void close();
 
     static InputDriverManager * instance();
 

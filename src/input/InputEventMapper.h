@@ -47,7 +47,8 @@ private:
     int translate[6];
     int rotate[3];
     int zoom;
-
+	volatile bool stopRequest;
+	
     double scale(double val);
     double getAxisValue(int config);
     int parseSettingValue(const std::string val);
@@ -57,12 +58,12 @@ private:
 
     static InputEventMapper *self;
 
-	volatile bool stopRequest;
-
 public:
     InputEventMapper();
     virtual ~InputEventMapper();
 
+	void stop();
+	
     void onAxisChanged(class InputEventAxisChanged *event);
     void onButtonChanged(class InputEventButtonChanged *event);
 
@@ -76,9 +77,10 @@ public:
     
     void onAxisTrimm();
     void onAxisTrimmReset();
-	void stop();
+
 
     static InputEventMapper * instance();
+    
 private slots:
     void onTimer();
 };

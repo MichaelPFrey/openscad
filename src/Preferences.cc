@@ -329,7 +329,6 @@ void Preferences::featuresCheckBoxToggled(bool state)
 	if (!Feature::ExperimentalInputDriver.is_enabled()) {
 		this->toolBar->removeAction(prefsActionInput);
 		this->toolBar->removeAction(prefsActionInputButton);
-		//ToDo: Acctually kill the input driver
 		InputDriverManager::instance()->closeDrivers();
 	}
 }
