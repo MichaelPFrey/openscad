@@ -580,7 +580,7 @@ void Preferences::on_AxisTrimmReset()
 		Settings::SettingsEntry* ent;
 		
 		ent = Settings::Settings::inst()->getSettingEntryByName("axisTrimm" +s);
-		Settings::Settings::inst()->set(*ent, 0.00);	
+		Settings::Settings::inst()->set(*ent, 0.00);
 		
 		spin = this->centralwidget->findChild<QDoubleSpinBox *>(QString::fromStdString("doubleSpinBoxTrimm"+s));
 		spin->setValue(0.00);
@@ -1171,11 +1171,12 @@ void Preferences::create(QStringList colorSchemes)
 void Preferences::ButtonPressed(int nr, bool pressed) const{
 	QString Style = Preferences::EmptyString;
 	if(pressed){
-        Style=Preferences::ActiveStyleString;
+		Style=Preferences::ActiveStyleString;
 	}
 	std::string number = std::to_string(nr);
-			
+
 	QLabel* label = this->centralwidget->findChild<QLabel *>(QString::fromStdString("labelInputButton"+number));
+	if(label==0) return;
 	label->setStyleSheet(Style);
 }
 
@@ -1183,8 +1184,12 @@ void Preferences::AxesChanged(int nr, double val) const{
 	int value = val *100;
 
 	QString s =  QString::number(val, 'f', 2 );
-	
-	switch(nr) {
+	std::string number = std::to_string(nr);
+	QProgressBar* progressBar = this->centralwidget->findChild<QProgressBar *>(QString::fromStdString("progressBarAxis"+number));
+    if(progressBar==0) return;
+	progressBar->setValue(value);
+	progressBar->setFormat(s);
+/*	switch(nr) {
 		case 0:
 		this->progressBarAxis0->setValue(value);
 		this->progressBarAxis0->setFormat(s);
@@ -1234,7 +1239,7 @@ void Preferences::AxesChanged(int nr, double val) const{
 		//this->progressBarAxis9->setValue(value);
 		//this->progressBarAxis9->setFormat(s);
 		//break;
-	}
+	}*/
 }
 
 Preferences *Preferences::inst() {
