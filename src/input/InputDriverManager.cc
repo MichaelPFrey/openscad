@@ -168,7 +168,7 @@ unsigned char InputDriverManager::get_axes(){
 
 unsigned char InputDriverManager::get_buttons(){
 	char cnt = 0;
-	for (drivers_t::iterator it = drivers.begin();it != drivers.end();it++) {
+	for (drivers_t::iterator it = drivers.begin();it != drivers.end();it++) { //ToDo: cpp11 for
         InputDriver *driver = (*it);
         if(driver->isOpen()){
 			char b = driver->get_buttons();

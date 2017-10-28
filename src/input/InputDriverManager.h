@@ -71,8 +71,8 @@ public:
 
     static InputDriverManager * instance();
 
-	unsigned char get_buttons();
-	unsigned char get_axes();
+    unsigned char get_buttons();
+    unsigned char get_axes();
 
 public slots:
     void onInputMappingUpdated();

@@ -30,8 +30,8 @@
 
 #include "input/InputDriver.h"
 
-#define AXIS 9
-#define BUTTONS 10
+#define MAX_AXIS 9
+#define MAX_BUTTONS 10
 
 class InputEventMapper : public QObject, public InputEventHandler
 {
@@ -39,11 +39,11 @@ class InputEventMapper : public QObject, public InputEventHandler
 
 private:
     QTimer *timer;
-    double axisValue[AXIS];
-    double axisRawValue[AXIS];
-    double axisTrimmValue[AXIS];
-    double axisDeadzone[AXIS];
-    QString actions[BUTTONS];
+    double axisValue[MAX_AXIS];
+    double axisRawValue[MAX_AXIS];
+    double axisTrimmValue[MAX_AXIS];
+    double axisDeadzone[MAX_AXIS];
+    QString actions[MAX_BUTTONS];
     int translate[6];
     int rotate[3];
     int zoom;
@@ -53,8 +53,8 @@ private:
     double getAxisValue(int config);
     int parseSettingValue(const std::string val);
     
-	bool button_state[BUTTONS];
-	bool button_state_last[BUTTONS];
+	bool button_state[MAX_BUTTONS];
+	bool button_state_last[MAX_BUTTONS];
 
     static InputEventMapper *self;
 
