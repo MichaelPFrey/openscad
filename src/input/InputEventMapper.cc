@@ -26,8 +26,8 @@
 #include "InputEventMapper.h"
 #include "InputDriverManager.h"
 #include "settings.h"
-
 #include "Preferences.h"
+
 #include <math.h>
 #include <QSettings>
 
@@ -37,15 +37,16 @@ InputEventMapper::InputEventMapper()
 {
     stopRequest=false;
 
-    for (int a = 0;a < MAX_AXIS;a++) {
+    for (int a = 0;a < max_axis;a++) {
         axisValue[a] = 0;
         axisTrimmValue[a] = 0;
         axisDeadzone[a] = 0.1;
     }
-    for (int a = 0;a < MAX_BUTTONS;a++) {
+    for (int a = 0;a < max_buttons;a++) {
         button_state[a]=false;
         button_state_last[a]=false;
     }
+    
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
     timer->start(30);
@@ -89,7 +90,7 @@ double InputEventMapper::getAxisValue(int config)
 
 void InputEventMapper::onTimer()
 {
-    const double threshold = 0.01; //replace treshold with deadzone
+    const double threshold = 0.01;
 
     double tx = getAxisValue(translate[0]);
     double ty = getAxisValue(translate[1]);
@@ -120,41 +121,26 @@ void InputEventMapper::onTimer()
         InputEvent *inputEvent = new InputEventZoom(z);
         InputDriverManager::instance()->postEvent(inputEvent);
     }
-    
-    //update the UI on time, NOT event as a joystick can fire a high rate of events
-    //ToDo: Add flag to only update the UI, when the UI needs updating
-    for (int i = 0; i < MAX_BUTTONS; i++ ){   
+
+    //update the UI on time, NOT on event as a joystick can fire a high rate of events
+    for (int i = 0; i < max_buttons; i++ ){
         if(button_state[i] != button_state_last[i]){
             button_state_last[i] = button_state[i];
-            Preferences::inst()->ButtonPressed(i,button_state[i]);
+            Preferences::inst()->updateButtonState(i,button_state[i]);
         }
-    }
-    
-    for (int i = 0; i < MAX_AXIS; i++ ){ 
-        Preferences::inst()->AxesChanged(i,axisValue[i]);
     }
 }
 
 void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)
 {
-    if (stopRequest) return;
-
-    axisRawValue[event->axis] = event->value;
-    axisValue[event->axis] = event->value+axisTrimmValue[event->axis];
+    axisValue[event->axis] = event->value;
 }
 
 void InputEventMapper::onButtonChanged(InputEventButtonChanged *event)
 {
-    if (stopRequest) return;
-    
     int button = event->button;
-    
-    //Do NOT update the UI during an event.
-    //A gamepad with turbo function can fire a high update rate,
-    //which is able to crash the UI!
-    //Preferences::inst()->ButtonPressed(button,event->down);
-    
-    if (event->button < MAX_BUTTONS) {
+
+    if (button < max_buttons) {
         if (event->down) {
             this->button_state[button]=true;
         }else{
@@ -204,11 +190,11 @@ int InputEventMapper::parseSettingValue(const std::string val)
 void InputEventMapper::onInputMappingUpdated()
 {
     Settings::Settings *s = Settings::Settings::inst();
-    for (int i = 0; i < MAX_BUTTONS; i++ ){
-        std::string is = std::to_string(i);
-        Settings::SettingsEntry* ent =s->getSettingEntryByName("button" +is);
-        actions[i] =(s->get(*ent).toString().c_str());
-    }
+    for (int i = 0; i < max_buttons; i++ ){
+		std::string is = std::to_string(i);
+		Settings::SettingsEntry* ent =s->getSettingEntryByName("button" +is);
+		actions[i] =QString::fromStdString(s->get(*ent).toString());
+	}
     
     translate[0] = parseSettingValue(s->get(Settings::Settings::inputTranslationX).toString());
     translate[1] = parseSettingValue(s->get(Settings::Settings::inputTranslationY).toString());
@@ -225,7 +211,7 @@ void InputEventMapper::onInputMappingUpdated()
 void InputEventMapper::onInputCalibrationUpdated()
 {
     //Axis
-    for (int a = 0;a < MAX_AXIS;a++) {
+    for (int a = 0;a < max_axis;a++) {
         std::string s = std::to_string(a);
         Settings::Settings *setting = Settings::Settings::inst();
         Settings::SettingsEntry* ent;
@@ -243,10 +229,10 @@ void InputEventMapper::onInputCalibrationUpdated()
     }
 }
 
-void InputEventMapper::onAxisTrimm()
+void InputEventMapper::onAxisAutoTrimm()
 {
     Settings::Settings *s = Settings::Settings::inst();
-    for (int i = 0; i < MAX_AXIS; i++ ){ 
+    for (int i = 0; i < max_axis; i++ ){ 
         std::string is = std::to_string(i);
         
         axisTrimmValue[i] = -axisRawValue[i];
@@ -260,7 +246,7 @@ void InputEventMapper::onAxisTrimm()
 void InputEventMapper::onAxisTrimmReset()
 {
     Settings::Settings *s = Settings::Settings::inst();
-    for (int i = 0; i < MAX_AXIS; i++ ){ 
+    for (int i = 0; i < max_axis; i++ ){ 
         std::string is = std::to_string(i);
         
         axisTrimmValue[i] = 0.00;
