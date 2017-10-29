@@ -787,15 +787,19 @@ int gui(vector<string> &inputFiles, const fs::path &original_path, int argc, cha
 	app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 	if (Feature::ExperimentalInputDriver.is_enabled()) {
 #ifdef ENABLE_HIDAPI
+        std::cout << "HIDAPI\n";
         InputDriverManager::instance()->registerDriver(new HidApiInputDriver());
 #endif
 #ifdef ENABLE_SPNAV
+        std::cout << "SPNAV\n";
         InputDriverManager::instance()->registerDriver(new SpaceNavInputDriver());
 #endif
 #ifdef ENABLE_JOYSTICK
+        std::cout << "JOYSTICK\n";
         InputDriverManager::instance()->registerDriver(new JoystickInputDriver());
 #endif
 #ifdef ENABLE_DBUS
+        std::cout << "DBUS\n";
         InputDriverManager::instance()->registerDriver(new DBusInputDriver());
 #endif
         InputDriverManager::instance()->init();

@@ -243,7 +243,7 @@ void Preferences::init() {
 			//using findChild() is not ideal. It would be better to create the comboBoxButtons from code
 			QComboBox* box = this->centralwidget->findChild<QComboBox *>(QString::fromStdString("comboBoxButton"+s));
 			Settings::SettingsEntry* ent = Settings::Settings::inst()->getSettingEntryByName("button" +s );
-			if(box != 0 && ent != nullptr){
+			if(box && ent){
 				initComboBox(box,*ent);
 			}
 		}
@@ -553,7 +553,7 @@ void Preferences::on_checkBoxShowWarningsIn3dView_toggled(bool val)
 
 void Preferences::on_AxisTrimm()
 {
-	InputEventMapper::instance()->onAxisTrimm();
+	InputEventMapper::instance()->onAxisAutoTrimm();
 	
 		for (int i = 0; i < 9; i++ ){
 			std::string s = std::to_string(i);
@@ -1168,7 +1168,7 @@ void Preferences::create(QStringList colorSchemes)
     instance->updateGUI();
 }
 
-void Preferences::ButtonPressed(int nr, bool pressed) const{
+void Preferences::updateButtonState(int nr, bool pressed) const{
 	QString Style = Preferences::EmptyString;
 	if(pressed){
 		Style=Preferences::ActiveStyleString;
@@ -1189,57 +1189,6 @@ void Preferences::AxesChanged(int nr, double val) const{
     if(progressBar==0) return;
 	progressBar->setValue(value);
 	progressBar->setFormat(s);
-/*	switch(nr) {
-		case 0:
-		this->progressBarAxis0->setValue(value);
-		this->progressBarAxis0->setFormat(s);
-		break;
-		
-		case 1:
-		this->progressBarAxis1->setValue(value);
-		this->progressBarAxis1->setFormat(s);
-		break;
-		
-		case 2:
-		this->progressBarAxis2->setValue(value);
-		this->progressBarAxis2->setFormat(s);
-		break;
-		
-		case 3:
-		this->progressBarAxis3->setValue(value);
-		this->progressBarAxis3->setFormat(s);
-		break;
-		
-		case 4:
-		this->progressBarAxis4->setValue(value);
-		this->progressBarAxis4->setFormat(s);
-		break;
-		
-		case 5:
-		this->progressBarAxis5->setValue(value);
-		this->progressBarAxis5->setFormat(s);
-		break;
-		
-		case 6:
-		this->progressBarAxis6->setValue(value);
-		this->progressBarAxis6->setFormat(s);
-		break;
-		
-		case 7:
-		this->progressBarAxis7->setValue(value);
-		this->progressBarAxis7->setFormat(s);
-		break;
-		
-		case 8:
-		this->progressBarAxis8->setValue(value);
-		this->progressBarAxis8->setFormat(s);
-		break;
-		
-		//case 9:
-		//this->progressBarAxis9->setValue(value);
-		//this->progressBarAxis9->setFormat(s);
-		//break;
-	}*/
 }
 
 Preferences *Preferences::inst() {

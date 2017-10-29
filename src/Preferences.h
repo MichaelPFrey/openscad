@@ -21,7 +21,7 @@ public:
 	void init();
 	void apply() const;
 	void fireEditorConfigChanged() const;
-	void ButtonPressed(int,bool) const;
+	void updateButtonState(int,bool) const;
 	void AxesChanged(int,double) const;
 
 public slots:
