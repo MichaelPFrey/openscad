@@ -539,13 +539,16 @@ unix:!macx {
   HEADERS += src/input/DBusInputDriver.h
   SOURCES += src/input/DBusInputDriver.cc
   
-  DEFINES += ENABLE_SPNAV
-  HEADERS += src/input/SpaceNavInputDriver.h
-  SOURCES += src/input/SpaceNavInputDriver.cc
+#DEFINES += ENABLE_SPNAV
+#HEADERS += src/input/SpaceNavInputDriver.h
+#SOURCES += src/input/SpaceNavInputDriver.cc
   
-  DEFINES += ENABLE_HIDAPI
-  HEADERS += src/input/HidApiInputDriver.h
-  SOURCES += src/input/HidApiInputDriver.cc
+DEFINES += ENABLE_HIDAPI
+HEADERS += src/input/HidApiInputDriver.h
+SOURCES += src/input/HidApiInputDriver.cc
+HEADERS += src/hidapi/hidapi.h
+SOURCES += src/hidapi/hid.c 
+LIBS += `pkg-config libudev --libs` -lrt
 }
 
 unix:!macx {

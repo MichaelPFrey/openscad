@@ -129,6 +129,9 @@ void InputEventMapper::onTimer()
             Preferences::inst()->updateButtonState(i,button_state[i]);
         }
     }
+    for (int i = 0; i < max_axis; i++ ){ 
+       Preferences::inst()->AxesChanged(i,axisValue[i]);
+    }
 }
 
 void InputEventMapper::onAxisChanged(InputEventAxisChanged *event)
