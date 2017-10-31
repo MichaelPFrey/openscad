@@ -36,10 +36,9 @@ class InputEventMapper : public QObject, public InputEventHandler
 
 private:
     const static int max_axis = 9;
-    const static int max_buttons = 10;
+    const static int max_buttons = 16;
 
     QTimer *timer;
-    double axisValue[max_axis];
     double axisRawValue[max_axis];
     double axisTrimmValue[max_axis];
     double axisDeadzone[max_axis];

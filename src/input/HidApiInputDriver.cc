@@ -32,6 +32,7 @@
 #include <iomanip>
 #include <iostream>
 #include <hidapi/hidapi.h>
+#include <bitset>  
 
 #include "input/HidApiInputDriver.h"
 #include "input/InputDriverManager.h"
@@ -88,9 +89,9 @@ void HidApiInputDriver::hidapi_decode_axis1(const unsigned char *buf, unsigned i
         int16_t x_value = buf[ 1] | buf[ 2] << 8;
         int16_t y_value = buf[ 3] | buf[ 4] << 8;
         int16_t z_value = buf[ 5] | buf[ 6] << 8;
-        double x = x_value/259.500;
-        double y = y_value/259.500;
-        double z = z_value/259.500;
+        double x = x_value/350.0;
+        double y = y_value/350.0;
+        double z = z_value/350.0;
         std::cout << x << "\n";
         if (x_value == 0 && y_value == 0 && z_value == 0) {
             return;
@@ -102,12 +103,9 @@ void HidApiInputDriver::hidapi_decode_axis1(const unsigned char *buf, unsigned i
         } else {
             InputDriverManager::instance()->sendEvent(new InputEventAxisChanged(3, x));
             InputDriverManager::instance()->sendEvent(new InputEventAxisChanged(4, y));
-            InputDriverManager::instance()->sendEvent(new InputEventAxisChanged(5, z));          }
+            InputDriverManager::instance()->sendEvent(new InputEventAxisChanged(5, z)); 
+        }
     }
-
-    //if (event) {
-    //    InputDriverManager::instance()->sendEvent(event);
-    //}
 }
 
 /*
@@ -120,6 +118,22 @@ void HidApiInputDriver::hidapi_decode_button1(const unsigned char *buf, unsigned
         uint16_t bitmask = buf[1] | buf[2] << 8;
         uint16_t down = bitmask;
         uint16_t up = 0;
+        std::cout << "Button: ";
+        std::cout <<down;
+        std::cout <<"\n";
+        
+        std::bitset<16> bits_curr (down);
+        std::bitset<16> bits_last (buttons);
+        
+        for (int i = 0;i < 16;i++) {
+            if(bits_curr.test(i) != bits_last.test(i)){
+                InputEvent *event = new InputEventButtonChanged(i, bits_curr.test(i));
+                InputDriverManager::instance()->sendEvent(event);
+            }
+        }
+        
+        buttons = down;
+        /*
         if (bitmask == 0) {
             up = buttons;
             buttons = 0;
@@ -129,7 +143,7 @@ void HidApiInputDriver::hidapi_decode_button1(const unsigned char *buf, unsigned
         if (down != 0 || up != 0) {
             InputEvent *event = new InputEventButtonChanged(down, up);
             InputDriverManager::instance()->sendEvent(event);
-        }
+        }*/
     }
 }
 

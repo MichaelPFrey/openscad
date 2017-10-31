@@ -27,7 +27,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="page3DView">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1658,7 +1658,7 @@
               <item row="13" column="6" colspan="3">
                <widget class="QPushButton" name="pushButtonAxisTrimm">
                 <property name="text">
-                 <string>Trimm Axis to Zero</string>
+                 <string>Auto Trimm Axis</string>
                 </property>
                </widget>
               </item>
@@ -2210,9 +2210,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>170</width>
-             <height>328</height>
+             <y>-122</y>
+             <width>655</width>
+             <height>514</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_8" columnstretch="0,0,0,0">
@@ -2316,7 +2316,7 @@
               </property>
              </widget>
             </item>
-            <item row="26" column="0">
+            <item row="32" column="0">
              <spacer name="verticalSpacer_5">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -2328,6 +2328,66 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="28" column="0">
+             <widget class="QLabel" name="labelInputButton12">
+              <property name="text">
+               <string>Button 12</string>
+              </property>
+             </widget>
+            </item>
+            <item row="26" column="0">
+             <widget class="QLabel" name="labelInputButton10">
+              <property name="text">
+               <string>Button 10</string>
+              </property>
+             </widget>
+            </item>
+            <item row="27" column="0">
+             <widget class="QLabel" name="labelInputButton11">
+              <property name="text">
+               <string>Button 11</string>
+              </property>
+             </widget>
+            </item>
+            <item row="29" column="0">
+             <widget class="QLabel" name="labelInputButton13">
+              <property name="text">
+               <string>Button 13</string>
+              </property>
+             </widget>
+            </item>
+            <item row="30" column="0">
+             <widget class="QLabel" name="labelInputButton14">
+              <property name="text">
+               <string>Button 14</string>
+              </property>
+             </widget>
+            </item>
+            <item row="31" column="0">
+             <widget class="QLabel" name="labelInputButton15">
+              <property name="text">
+               <string>Button 15</string>
+              </property>
+             </widget>
+            </item>
+            <item row="26" column="1" colspan="3">
+             <widget class="QComboBox" name="comboBoxButton10"/>
+            </item>
+            <item row="27" column="1" colspan="3">
+             <widget class="QComboBox" name="comboBoxButton11"/>
+            </item>
+            <item row="28" column="1" colspan="3">
+             <widget class="QComboBox" name="comboBoxButton12"/>
+            </item>
+            <item row="29" column="1" colspan="3">
+             <widget class="QComboBox" name="comboBoxButton13"/>
+            </item>
+            <item row="30" column="1" colspan="3">
+             <widget class="QComboBox" name="comboBoxButton14"/>
+            </item>
+            <item row="31" column="1" colspan="3">
+             <widget class="QComboBox" name="comboBoxButton15"/>
             </item>
            </layout>
           </widget>
