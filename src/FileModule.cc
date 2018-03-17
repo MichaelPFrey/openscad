@@ -32,12 +32,13 @@
 #include "modcontext.h"
 #include "parsersettings.h"
 #include "StatCache.h"
-
+#include "evalcontext.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
 #include "FontCache.h"
 #include <sys/stat.h>
+#include "boost-utils.h"
 
 FileModule::FileModule(const std::string &path, const std::string &filename)
 	: ASTNode(Location::NONE), is_handling_dependencies(false), path(path), filename(filename)
@@ -179,6 +180,20 @@ AbstractNode *FileModule::instantiateWithFileContext(FileContext *ctx, const Mod
 		// FIXME: Set document path to the path of the module
 		auto instantiatednodes = this->scope.instantiateChildren(ctx);
 		node->children.insert(node->children.end(), instantiatednodes.begin(), instantiatednodes.end());
+	}
+	catch (AssertionFailedException &e) {
+		auto docPath = boost::filesystem::path( ctx->documentPath() );
+
+		std::cout << docPath.generic_string() << "\n";
+		std::cout.flush();
+
+		auto uncPath = boostfs_uncomplete(boost::filesystem::path((*(e.loc.filePath())).generic_string()), docPath);
+
+		std::stringstream msg;
+		msg << e.what();
+		msg << " failed in file " << uncPath.generic_string() <<",";
+		msg << " line " << loc.firstLine();
+		PRINT(msg.str());
 	}
 	catch (EvaluationException &e) {
 		PRINT(e.what());

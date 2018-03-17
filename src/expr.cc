@@ -727,18 +727,19 @@ void evaluate_assert(const Context &context, const class EvalContext *evalctx, c
 	if (!condition->toBool()) {
 		auto docPath = boost::filesystem::path( context.getRoot()->documentPath() );
 		auto uncPath = boostfs_uncomplete(*loc.filePath(), docPath);
-		std::cout << docPath.generic_string() << "\n";
+		//std::cout << docPath.generic_string() << "\n";
+		//std::cout.flush();
 		//uncPath = uncPath / loc.filePath()->filename();
 		std::stringstream msg;
 		msg << "ERROR: Assertion";
 		const Expression *expr = assignments["condition"];
 		if (expr) msg << " '" << *expr << "'";
-		msg << " failed in file " << uncPath.generic_string() <<",";
-		msg << " line " << loc.firstLine();
+		//msg << " failed in file " << uncPath.generic_string() <<",";
+		//msg << " line " << loc.firstLine();
 		const ValuePtr message = c.lookup_variable("message", true);
 		if (message->isDefined()) {
 			msg << ": " << message->toEchoString();
 		}
-		throw AssertionFailedException(msg.str());
+		throw AssertionFailedException(msg.str(),loc);
 	}
 }
