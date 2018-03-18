@@ -35,10 +35,10 @@
 #include "evalcontext.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+#include "boost-utils.h"
 namespace fs = boost::filesystem;
 #include "FontCache.h"
 #include <sys/stat.h>
-#include "boost-utils.h"
 
 FileModule::FileModule(const std::string &path, const std::string &filename)
 	: ASTNode(Location::NONE), is_handling_dependencies(false), path(path), filename(filename)
