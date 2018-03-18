@@ -36,6 +36,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include "boost-utils.h"
+#include "boosty.h"
 namespace fs = boost::filesystem;
 #include "FontCache.h"
 #include <sys/stat.h>
@@ -182,8 +183,23 @@ AbstractNode *FileModule::instantiateWithFileContext(FileContext *ctx, const Mod
 		node->children.insert(node->children.end(), instantiatednodes.begin(), instantiatednodes.end());
 	}
 	catch (AssertionFailedException &e) {
-		auto docPath = boost::filesystem::path( ctx->documentPath() );
-		auto uncPath = boostfs_uncomplete((*(e.loc.filePath())), docPath);
+		fs::path docPath = boost::filesystem::path(ctx->documentPath() );
+		fs::path uncPath = boostfs_uncomplete((*(e.loc.filePath())), docPath);
+
+		try{
+			//FIXME: We should canonicalize the paths way earlier
+			fs::path CanDocPath = boosty::canonical(docPath);
+			fs::path CanLocPath = boosty::canonical(*(e.loc.filePath()));
+			uncPath = boostfs_uncomplete(CanDocPath, CanLocPath);
+		}catch(__exception& e){
+		
+		}
+
+		/*std::cout << "----------"  << "\n";
+		std::cout << docPath.generic_string() << "\n";
+		std::cout << (*(e.loc.filePath())).generic_string() << "\n";
+		std::cout << "----------"  << "\n";
+		std::cout.flush();*/
 
 		std::stringstream msg;
 		msg << e.what();
