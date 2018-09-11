@@ -61,7 +61,12 @@ ParameterWidget::ParameterWidget(QWidget *parent) : QWidget(parent)
 	connect(checkBoxAutoPreview, SIGNAL(toggled(bool)), this, SLOT(onValueChanged()));
 	connect(comboBoxDetails,SIGNAL(currentIndexChanged(int)), this,SLOT(onDescriptionLoDChanged()));
 	connect(comboBoxPreset, SIGNAL(currentIndexChanged(int)), this, SLOT(onSetChanged(int)));
+	
+	connect(comboBoxPreset->lineEdit(), SIGNAL(editingFinished()), this, SLOT(onSetNameChanged()));
 	connect(reset, SIGNAL(clicked()), this, SLOT(resetParameter()));
+
+	comboBoxPreset->setInsertPolicy(QComboBox::InsertAtCurrent);
+
 	this->extractor = new ParameterExtractor();
 	this->setMgr = new ParameterSet();
 	this->valueChanged=false;
@@ -238,6 +243,60 @@ void ParameterWidget::onSetChanged(int idx)
 	emit previewRequested(false);
 }
 
+void ParameterWidget::onSetNameChanged(){
+
+	//QString string = comboBoxPreset->lineEdit()->text();
+	
+	//comboBoxPreset->setEditable(false);
+
+
+	//QString string = this->comboBoxPreset->currentIndex().toString().toStdString();
+	QString string = this->comboBoxPreset->currentText();
+
+	int idx =  comboBoxPreset->currentIndex();
+
+	QString oldName = comboBoxPreset->itemData(idx).toString().toUtf8().constData();
+	//std::cout << oldName.toStdString() << " != " << string.toStdString() << "\n";
+	
+	if(oldName =="")return;
+	if(string =="")return;
+	if(oldName == string) return;
+
+	
+	std::cout << oldName.toStdString() << " != " << string.toStdString() << "\n";
+	
+	//printf("%s =! %s", string.toStdString(), oldName.toStdString());
+	//fflush(stdout); // Will now print everything in the stdout buffer
+
+		boost::optional<pt::ptree &> sets = setMgr->parameterSets();
+		if (sets.is_initialized()) {
+			sets.get().erase(pt::ptree::key_type(oldName.toStdString()));
+		}
+
+	if (setMgr->isEmpty()) {
+		pt::ptree setRoot;
+		setMgr->addChild(ParameterSet::parameterSetsKey, setRoot);
+	}
+
+	//check for name collisions?
+	updateParameterSet(string.toStdString());
+
+//	if(!this->valueChanged){
+//		boost::optional<pt::ptree &> sets = setMgr->parameterSets();
+//		if (sets.is_initialized()) {
+//			sets.get().erase(pt::ptree::key_type(oldName.toStdString()));
+//		}
+//	}
+
+//	writeParameterSets();
+	this->comboBoxPreset->clear();
+	setComboBoxPresetForSet();
+	
+	this->comboBoxPreset->setCurrentIndex(this->comboBoxPreset->findData(string));
+
+	//comboBoxPreset->setEditable(true);
+}
+
 void ParameterWidget::onDescriptionLoDChanged()
 {
 	descriptionLoD =static_cast<DescLoD>(comboBoxDetails->currentIndex());
@@ -247,10 +306,7 @@ void ParameterWidget::onDescriptionLoDChanged()
 void ParameterWidget::onValueChanged()
 {
 	if(!this->valueChanged){
-		this->comboBoxPreset->setItemText(
-			this->comboBoxPreset->currentIndex(),
-			this->comboBoxPreset->currentText() +" *"
-		);
+		this->labelChangeIndicator->setText("*");
 	}
 	this->valueChanged=true;
 
@@ -497,8 +553,5 @@ void ParameterWidget::writeParameterSets()
 
 void ParameterWidget::removeChangeIndicator(int idx)
 {
-	this->comboBoxPreset->setItemText(
-		idx,
-		comboBoxPreset->itemData(idx).toString()
-	);
+	this->labelChangeIndicator->setText("");
 }
