@@ -267,8 +267,7 @@ void ParameterWidget::onSetNameChanged(){
 		setMgr->addChild(ParameterSet::parameterSetsKey, setRoot);
 	}
 
-	//check for name collisions?
-	updateParameterSet(newName.toStdString());
+	updateParameterSet(newName.toStdString(),true);
 
 	this->comboBoxPreset->clear();
 	setComboBoxPresetForSet();
