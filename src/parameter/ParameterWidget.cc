@@ -249,7 +249,6 @@ void ParameterWidget::onSetNameChanged(){
 	int idx =  comboBoxPreset->currentIndex();
 
 	QString oldName = comboBoxPreset->itemData(idx).toString().toUtf8().constData();
-	//std::cout << oldName.toStdString() << " != " << string.toStdString() << "\n";
 	
 	if(oldName =="")return;
 	if(newName =="")return;
@@ -271,20 +270,9 @@ void ParameterWidget::onSetNameChanged(){
 	//check for name collisions?
 	updateParameterSet(newName.toStdString());
 
-//	if(!this->valueChanged){
-//		boost::optional<pt::ptree &> sets = setMgr->parameterSets();
-//		if (sets.is_initialized()) {
-//			sets.get().erase(pt::ptree::key_type(oldName.toStdString()));
-//		}
-//	}
-
-//	writeParameterSets();
 	this->comboBoxPreset->clear();
 	setComboBoxPresetForSet();
-	
 	this->comboBoxPreset->setCurrentIndex(this->comboBoxPreset->findData(newName));
-
-	//comboBoxPreset->setEditable(true);
 }
 
 void ParameterWidget::onDescriptionLoDChanged()
