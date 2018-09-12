@@ -72,6 +72,7 @@ ParameterWidget::ParameterWidget(QWidget *parent) : QWidget(parent)
 	this->valueChanged=false;
 }
 
+//resets all parameters to the currently selected parameter set
 void ParameterWidget::resetParameter()
 {
 	if(this->valueChanged){
@@ -92,8 +93,11 @@ void ParameterWidget::resetParameter()
 
 	removeChangeIndicator(currPreset);
 
-	const std::string v = comboBoxPreset->itemData(currPreset).toString().toUtf8().constData();
-	applyParameterSet(v);
+	defaultParameter();
+	if(comboBoxPreset->currentIndex() != 0){ //0 is "design default values"
+		const std::string v = comboBoxPreset->itemData(currPreset).toString().toUtf8().constData();
+		applyParameterSet(v);
+	}
 	emit previewRequested();
 }
 
@@ -204,7 +208,7 @@ void ParameterWidget::applyParameters(FileModule *fileModule)
 
 void ParameterWidget::setComboBoxPresetForSet()
 {
-	this->comboBoxPreset->addItem(_("no preset selected"), QVariant(QString::fromStdString("")));
+	this->comboBoxPreset->addItem(_("design default values"), QVariant(QString::fromStdString(_("design default values"))));
 	if (setMgr->isEmpty()) return;
 	for (const auto &name : setMgr->getParameterNames()) {
 		const QString n = QString::fromStdString(name);
@@ -236,10 +240,13 @@ void ParameterWidget::onSetChanged(int idx)
 	
 	removeChangeIndicator(lastComboboxIndex);
 
-	//apply the change
 	this->lastComboboxIndex = idx;
-	const std::string v = comboBoxPreset->itemData(idx).toString().toUtf8().constData();
-	applyParameterSet(v);
+	defaultParameter();
+	if(idx!=0){ //0 is "design default values"
+		//apply the change
+		const std::string v = comboBoxPreset->itemData(idx).toString().toUtf8().constData();
+		applyParameterSet(v);
+	}
 	emit previewRequested(false);
 }
 
@@ -442,6 +449,13 @@ ParameterVirtualWidget* ParameterWidget::CreateParameterWidget(std::string param
 		}
 	}
 	return entry;
+}
+
+//reset all parameters to the default value of the design file
+void ParameterWidget::defaultParameter(){
+	for (const auto &entry : entries) {
+		entry.second->value=entry.second->defaultValue;
+	}
 }
 
 void ParameterWidget::applyParameterSet(std::string setName)
