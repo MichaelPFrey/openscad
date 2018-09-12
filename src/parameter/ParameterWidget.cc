@@ -244,14 +244,7 @@ void ParameterWidget::onSetChanged(int idx)
 }
 
 void ParameterWidget::onSetNameChanged(){
-
-	//QString string = comboBoxPreset->lineEdit()->text();
-	
-	//comboBoxPreset->setEditable(false);
-
-
-	//QString string = this->comboBoxPreset->currentIndex().toString().toStdString();
-	QString string = this->comboBoxPreset->currentText();
+	QString newName = this->comboBoxPreset->currentText();
 
 	int idx =  comboBoxPreset->currentIndex();
 
@@ -259,14 +252,11 @@ void ParameterWidget::onSetNameChanged(){
 	//std::cout << oldName.toStdString() << " != " << string.toStdString() << "\n";
 	
 	if(oldName =="")return;
-	if(string =="")return;
-	if(oldName == string) return;
+	if(newName =="")return;
+	if(oldName == newName) return;
 
 	
-	std::cout << oldName.toStdString() << " != " << string.toStdString() << "\n";
-	
-	//printf("%s =! %s", string.toStdString(), oldName.toStdString());
-	//fflush(stdout); // Will now print everything in the stdout buffer
+	std::cout << oldName.toStdString() << " != " << newName.toStdString() << "\n";
 
 		boost::optional<pt::ptree &> sets = setMgr->parameterSets();
 		if (sets.is_initialized()) {
@@ -279,7 +269,7 @@ void ParameterWidget::onSetNameChanged(){
 	}
 
 	//check for name collisions?
-	updateParameterSet(string.toStdString());
+	updateParameterSet(newName.toStdString());
 
 //	if(!this->valueChanged){
 //		boost::optional<pt::ptree &> sets = setMgr->parameterSets();
@@ -292,7 +282,7 @@ void ParameterWidget::onSetNameChanged(){
 	this->comboBoxPreset->clear();
 	setComboBoxPresetForSet();
 	
-	this->comboBoxPreset->setCurrentIndex(this->comboBoxPreset->findData(string));
+	this->comboBoxPreset->setCurrentIndex(this->comboBoxPreset->findData(newName));
 
 	//comboBoxPreset->setEditable(true);
 }
