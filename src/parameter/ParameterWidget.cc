@@ -263,37 +263,33 @@ void ParameterWidget::onSetChanged(int idx)
 }
 
 //if the set name is changed to "" asks if the user want to delete the current preset
-//if the set name is changed and some values are changed, create a new set
 //if the set name is changed and no   values are changed, rename the current preset
+//if the set name is changed and some values are changed, create a new set
 void ParameterWidget::onSetNameChanged(){
-	this->comboBoxPreset->lineEdit()->blockSignals(true);
+	this->comboBoxPreset->lineEdit()->blockSignals(true); //prevent double firing
 
 	int idx =  comboBoxPreset->currentIndex();
 
 	QString newName = this->comboBoxPreset->currentText();
 	QString oldName = comboBoxPreset->itemData(idx).toString().toUtf8().constData();
-
-	std::cout << oldName.toStdString() << " -- " << newName.toStdString() << "\n";
-
-	if(oldName ==""){
+	if(oldName == newName){
+		//nothing to do
+	}else if(oldName ==""){
 		//ignore
 	}else if(newName =="" && idx!=0){
 		QMessageBox msgBox;
 		msgBox.setWindowTitle(_("Do you want to delete the current preset?"));
 		msgBox.setText(
 			QString(_("Do you want to delete the current preset '%1'?"))
-			.arg(comboBoxPreset->itemData(this->comboBoxPreset->currentIndex()).toString()));
+			.arg(oldName);
 		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 		msgBox.setDefaultButton(QMessageBox::Cancel);
+
 		if (msgBox.exec() == QMessageBox::Cancel) {
 			comboBoxPreset->setCurrentText(oldName);
 		}else{
-			std::cout << "start deleting" << "\n";
 			onSetDelete();
-			std::cout << "end   deleting" << "\n";
 		}
-	}else if(oldName == newName){
-		//nothing to do
 	}else{
 		if(!this->valueChanged){
 			boost::optional<pt::ptree &> sets = setMgr->parameterSets();
