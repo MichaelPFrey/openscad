@@ -262,35 +262,58 @@ void ParameterWidget::onSetChanged(int idx)
 	emit previewRequested(false);
 }
 
+//if the set name is changed to "" asks if the user want to delete the current preset
+//if the set name is changed and some values are changed, create a new set
+//if the set name is changed and no   values are changed, rename the current preset
 void ParameterWidget::onSetNameChanged(){
-	QString newName = this->comboBoxPreset->currentText();
+	this->comboBoxPreset->lineEdit()->blockSignals(true);
 
 	int idx =  comboBoxPreset->currentIndex();
 
+	QString newName = this->comboBoxPreset->currentText();
 	QString oldName = comboBoxPreset->itemData(idx).toString().toUtf8().constData();
-	
-	if(oldName =="")return;
-	if(newName =="")return;
-	if(oldName == newName) return;
 
-	
-	std::cout << oldName.toStdString() << " != " << newName.toStdString() << "\n";
+	std::cout << oldName.toStdString() << " -- " << newName.toStdString() << "\n";
 
-		boost::optional<pt::ptree &> sets = setMgr->parameterSets();
-		if (sets.is_initialized()) {
-			sets.get().erase(pt::ptree::key_type(oldName.toStdString()));
+	if(oldName ==""){
+		//ignore
+	}else if(newName =="" && idx!=0){
+		QMessageBox msgBox;
+		msgBox.setWindowTitle(_("Do you want to delete the current preset?"));
+		msgBox.setText(
+			QString(_("Do you want to delete the current preset '%1'?"))
+			.arg(comboBoxPreset->itemData(this->comboBoxPreset->currentIndex()).toString()));
+		msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+		msgBox.setDefaultButton(QMessageBox::Cancel);
+		if (msgBox.exec() == QMessageBox::Cancel) {
+			comboBoxPreset->setCurrentText(oldName);
+		}else{
+			std::cout << "start deleting" << "\n";
+			onSetDelete();
+			std::cout << "end   deleting" << "\n";
+		}
+	}else if(oldName == newName){
+		//nothing to do
+	}else{
+		if(!this->valueChanged){
+			boost::optional<pt::ptree &> sets = setMgr->parameterSets();
+			if (sets.is_initialized()) {
+				sets.get().erase(pt::ptree::key_type(oldName.toStdString()));
+			}
 		}
 
-	if (setMgr->isEmpty()) {
-		pt::ptree setRoot;
-		setMgr->addChild(ParameterSet::parameterSetsKey, setRoot);
+		if (setMgr->isEmpty()) {
+			pt::ptree setRoot;
+			setMgr->addChild(ParameterSet::parameterSetsKey, setRoot);
+		}
+
+		updateParameterSet(newName.toStdString(),true);
+
+		this->comboBoxPreset->clear();
+		setComboBoxPresetForSet();
+		this->comboBoxPreset->setCurrentIndex(this->comboBoxPreset->findData(newName));
 	}
-
-	updateParameterSet(newName.toStdString(),true);
-
-	this->comboBoxPreset->clear();
-	setComboBoxPresetForSet();
-	this->comboBoxPreset->setCurrentIndex(this->comboBoxPreset->findData(newName));
+	this->comboBoxPreset->lineEdit()->blockSignals(false);
 }
 
 void ParameterWidget::onDescriptionLoDChanged()
