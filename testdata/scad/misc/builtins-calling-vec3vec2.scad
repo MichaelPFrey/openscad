@@ -7,6 +7,8 @@ cube([1,2,3,4]);
 
 //not numbers
 cube([1,"test",3]); 
+cube([1,"2",3]);
+cube(["1.2","2",3]); 
 
 square([1]);
 square([1,2]); //I'm fine

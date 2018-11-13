@@ -194,8 +194,7 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		size->getDouble(node->y);
 		size->getDouble(node->z);
 		if(!size->getVec3(node->x, node->y, node->z)){
-			PRINT("ERROR: Unable to convert CUBE size to a vec3 of numbers");
-			//PRINTB("ERROR: Unable to convert CUBE size to a vec3 of numbers, %s", this->modinst->location().toString());
+			PRINTB("ERROR: Unable to convert CUBE size to a vec3 of numbers, %s", inst->location().toString());
 		}
 		if (center->type() == Value::ValueType::BOOL) {
 			node->center = center->toBool();
@@ -253,8 +252,7 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		size->getDouble(node->x);
 		size->getDouble(node->y);
 		if(!size->getVec2(node->x, node->y)){
-			PRINT("ERROR: Unable to convert SQUARE size to a vec2 of numbers");
-			//PRINTB("ERROR: Unable to convert SQUARE size to a vec2 of numbers, %s", this->modinst->location().toString());
+			PRINTB("ERROR: Unable to convert SQUARE size to a vec2 of numbers, %s", inst->location().toString());
 		}
 		if (center->type() == Value::ValueType::BOOL) {
 			node->center = center->toBool();
