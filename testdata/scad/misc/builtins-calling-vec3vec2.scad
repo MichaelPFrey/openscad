@@ -1,5 +1,6 @@
 //Various lengths
-cube();
+cube();  //should be fine
+cube(2);  //I'm fine
 cube([1]);
 cube([1,2]);
 cube([1,2,3]); //I'm fine
@@ -10,8 +11,10 @@ cube([1,"test",3]);
 cube([1,"2",3]);
 cube(["1.2","2",3]); 
 
+square();
+square(2); //I'm fine
 square([1]);
-square([1,2]); //I'm fine
+square([1,2]);
 square([1,2,3]);
 
 mirror(1)

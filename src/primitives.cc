@@ -190,11 +190,13 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 	case primitive_type_e::CUBE: {
 		auto size = c.lookup_variable("size");
 		auto center = c.lookup_variable("center");
-		size->getDouble(node->x);
-		size->getDouble(node->y);
-		size->getDouble(node->z);
-		if(!size->getVec3(node->x, node->y, node->z)){
-			PRINTB("ERROR: Unable to convert CUBE size to a vec3 of numbers, %s", inst->location().toString());
+		bool converted=false;
+		converted |= size->getDouble(node->x);
+		converted |= size->getDouble(node->y);
+		converted |= size->getDouble(node->z);
+		converted |= size->getVec3(node->x, node->y, node->z);
+		if(!converted){
+			PRINTB("WARNING: Unable to convert CUBE size to a number or a vec3 of numbers, %s", inst->location().toString());
 		}
 		if (center->type() == Value::ValueType::BOOL) {
 			node->center = center->toBool();
@@ -249,10 +251,12 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 	case primitive_type_e::SQUARE: {
 		auto size = c.lookup_variable("size");
 		auto center = c.lookup_variable("center");
-		size->getDouble(node->x);
-		size->getDouble(node->y);
-		if(!size->getVec2(node->x, node->y)){
-			PRINTB("ERROR: Unable to convert SQUARE size to a vec2 of numbers, %s", inst->location().toString());
+		bool converted=false;
+		converted |= size->getDouble(node->x);
+		converted |= size->getDouble(node->y);
+		converted |= size->getVec2(node->x, node->y);
+		if(!converted){
+			PRINTB("WARNING: Unable to convert SQUARE size to a number or a vec2 of numbers, %s", inst->location().toString());
 		}
 		if (center->type() == Value::ValueType::BOOL) {
 			node->center = center->toBool();
