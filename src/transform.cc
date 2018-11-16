@@ -105,27 +105,36 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 			double a;
 			if (val_a->toVector().size() > 0) {
 				val_a->toVector()[0]->getDouble(a);
+				//handle the case when the get Double failes
 				rotx = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitX());
 			}
 			if (val_a->toVector().size() > 1) {
 				val_a->toVector()[1]->getDouble(a);
+				//handle the case when the get Double failes
 				roty = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitY());
 			}
 			if (val_a->toVector().size() > 2) {
 				val_a->toVector()[2]->getDouble(a);
+				//handle the case when the get Double failes
 				rotz = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitZ());
 			}
+			//handle the case when a vector bigger is supplied
 			node->matrix.rotate(rotz * roty * rotx);
 		}
 		else {
 			auto val_v = c.lookup_variable("v");
 			double a = 0.0;
 
-			val_a->getDouble(a);
+			bool converted=false;
+			converted|=val_a->getDouble(a);
 
 			Vector3d axis(0, 0, 1);
-			if (val_v->getVec3(axis[0], axis[1], axis[2], 0.0)) {
+			if (converted|=val_v->getVec3(axis[0], axis[1], axis[2], 0.0)) {
 				if (axis.squaredNorm() > 0) axis.normalize();
+			}
+			
+			if(!converted){
+				PRINTB("WARNING: Unable to convert ROTATE parameter v=%s to a number, a vec3 or vec2 of numbers or a number, %s", val_v->toString() % inst->location().toString());
 			}
 
 			if (axis.squaredNorm() > 0) {
