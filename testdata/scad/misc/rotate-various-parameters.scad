@@ -1,0 +1,56 @@
+color("red")
+translate([0,0]){
+    rotate([""])
+    cube([1,2,3]);
+    rotate([45])
+    cube([1,2,3]);
+    rotate([45,""])
+    cube([1,2,3]);
+    rotate([45,"",""])
+    cube([1,2,3]);
+    rotate([45,"","",""])
+    cube([1,2,3]);
+}
+
+
+color("green")
+translate([0,10]){
+    rotate([])
+    cube([1,2,3]);
+    rotate([45])
+    cube([1,2,3]);
+    rotate([45,45])
+    cube([1,2,3]);
+    rotate([45,45,45])
+    cube([1,2,3]);
+    rotate([45,45,45,45])
+    cube([1,2,3]);
+}
+
+color("blue")
+translate([0,20]){
+    rotate([0])
+    cube([1,2,3]);
+    rotate([45])
+    cube([1,2,3]);
+    rotate([45,0])
+    cube([1,2,3]);
+    rotate([45,0,0])
+    cube([1,2,3]);
+    rotate([45,0,0,0])
+    cube([1,2,3]);
+}
+
+color("yellow")
+translate([0,30]){
+    rotate([])
+    cube([1,2,3]);
+    rotate(45,[1,0])
+    cube([1,2,3]);
+    rotate(45,[1,1])
+    cube([1,2,3]);
+    rotate(45,[1,1,1])
+    cube([1,2,3]);
+    rotate(45,[1,0,1,0])
+    cube([1,2,3]);
+}

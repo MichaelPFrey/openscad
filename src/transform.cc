@@ -103,38 +103,45 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 			Eigen::AngleAxisd roty(0, Vector3d::UnitY());
 			Eigen::AngleAxisd rotz(0, Vector3d::UnitZ());
 			double a;
+			bool ok=true;
 			if (val_a->toVector().size() > 0) {
-				val_a->toVector()[0]->getDouble(a);
+				ok &= val_a->toVector()[0]->getDouble(a);
 				//handle the case when the get Double failes
 				rotx = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitX());
 			}
 			if (val_a->toVector().size() > 1) {
-				val_a->toVector()[1]->getDouble(a);
+				ok &= val_a->toVector()[1]->getDouble(a);
 				//handle the case when the get Double failes
 				roty = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitY());
 			}
 			if (val_a->toVector().size() > 2) {
-				val_a->toVector()[2]->getDouble(a);
+				ok &= val_a->toVector()[2]->getDouble(a);
 				//handle the case when the get Double failes
 				rotz = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitZ());
 			}
-			//handle the case when a vector bigger is supplied
+			if (val_a->toVector().size() > 3) {
+				ok &=  false;
+			}
+			if(!ok){
+				PRINTB("WARNING: Problem converting ROTATE parameter a=%s, %s", val_a->toString() % inst->location().toString());
+			}
 			node->matrix.rotate(rotz * roty * rotx);
 		}
 		else {
 			auto val_v = c.lookup_variable("v");
 			double a = 0.0;
+			if(!val_a->getDouble(a)){
+				PRINTB("WARNING: Unable to convert ROTATE parameter a=%s to a number, %s", val_a->toString() % inst->location().toString());
+			}
 
 			bool converted=false;
-			converted|=val_a->getDouble(a);
-
 			Vector3d axis(0, 0, 1);
 			if (converted|=val_v->getVec3(axis[0], axis[1], axis[2], 0.0)) {
 				if (axis.squaredNorm() > 0) axis.normalize();
 			}
 			
 			if(!converted){
-				PRINTB("WARNING: Unable to convert ROTATE parameter v=%s to a number, a vec3 or vec2 of numbers or a number, %s", val_v->toString() % inst->location().toString());
+				PRINTB("WARNING: Unable to convert ROTATE parameter v=%s to a vec3 or vec2 of numbers, %s", val_v->toString() % inst->location().toString());
 			}
 
 			if (axis.squaredNorm() > 0) {
