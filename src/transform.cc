@@ -106,17 +106,14 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 			bool ok=true;
 			if (val_a->toVector().size() > 0) {
 				ok &= val_a->toVector()[0]->getDouble(a);
-				//handle the case when the get Double failes
 				rotx = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitX());
 			}
 			if (val_a->toVector().size() > 1) {
 				ok &= val_a->toVector()[1]->getDouble(a);
-				//handle the case when the get Double failes
 				roty = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitY());
 			}
 			if (val_a->toVector().size() > 2) {
 				ok &= val_a->toVector()[2]->getDouble(a);
-				//handle the case when the get Double failes
 				rotz = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitZ());
 			}
 			if (val_a->toVector().size() > 3) {

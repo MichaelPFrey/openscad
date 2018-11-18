@@ -678,7 +678,7 @@ bool parse(FileModule *&module, const char *text, const std::string &filename, c
   main_file_folder = parser_sourcefile.parent_path().generic_string();
   lexer_set_parser_sourcefile(parser_sourcefile);
   mainFilePath = mainFile;
-
+//boostfs_uncomplete(
   lexerin = NULL;
   parser_error_pos = -1;
   parser_input_buffer = text;
