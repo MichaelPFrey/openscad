@@ -88,7 +88,11 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 		auto v = c.lookup_variable("v");
 		if (!v->getVec3(scalevec[0], scalevec[1], scalevec[2], 1.0)) {
 			double num;
-			if (v->getDouble(num)) scalevec.setConstant(num);
+			if (v->getDouble(num)){
+				scalevec.setConstant(num);
+			}else{
+				PRINTB("WARNING: Unable to convert SCALE parameter %s to a number, a vec3 or vec2 of numbers or a number, %s", v->toString() % inst->location().toString());
+			}
 		}
 		node->matrix.scale(scalevec);
 	}
@@ -99,29 +103,42 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 			Eigen::AngleAxisd roty(0, Vector3d::UnitY());
 			Eigen::AngleAxisd rotz(0, Vector3d::UnitZ());
 			double a;
+			bool ok=true;
 			if (val_a->toVector().size() > 0) {
-				val_a->toVector()[0]->getDouble(a);
+				ok &= val_a->toVector()[0]->getDouble(a);
 				rotx = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitX());
 			}
 			if (val_a->toVector().size() > 1) {
-				val_a->toVector()[1]->getDouble(a);
+				ok &= val_a->toVector()[1]->getDouble(a);
 				roty = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitY());
 			}
 			if (val_a->toVector().size() > 2) {
-				val_a->toVector()[2]->getDouble(a);
+				ok &= val_a->toVector()[2]->getDouble(a);
 				rotz = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitZ());
+			}
+			if (val_a->toVector().size() > 3) {
+				ok &=  false;
+			}
+			if(!ok){
+				PRINTB("WARNING: Problem converting ROTATE parameter a=%s, %s", val_a->toString() % inst->location().toString());
 			}
 			node->matrix.rotate(rotz * roty * rotx);
 		}
 		else {
 			auto val_v = c.lookup_variable("v");
 			double a = 0.0;
+			if(!val_a->getDouble(a)){
+				PRINTB("WARNING: Unable to convert ROTATE parameter a=%s to a number, %s", val_a->toString() % inst->location().toString());
+			}
 
-			val_a->getDouble(a);
-
+			bool converted=false;
 			Vector3d axis(0, 0, 1);
-			if (val_v->getVec3(axis[0], axis[1], axis[2], 0.0)) {
+			if (converted|=val_v->getVec3(axis[0], axis[1], axis[2], 0.0)) {
 				if (axis.squaredNorm() > 0) axis.normalize();
+			}
+			
+			if(!converted){
+				PRINTB("WARNING: Unable to convert ROTATE parameter v=%s to a vec3 or vec2 of numbers, %s", val_v->toString() % inst->location().toString());
 			}
 
 			if (axis.squaredNorm() > 0) {
@@ -138,6 +155,8 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 				double sn = 1.0 / sqrt(x*x + y*y + z*z);
 				x *= sn, y *= sn, z *= sn;
 			}
+		}else{
+			PRINTB("WARNING: Unable to convert MIRROR parameter %s to a vec3 or vec2 of numbers, %s", val_v->toString() % inst->location().toString());
 		}
 
 		if (x != 0.0 || y != 0.0 || z != 0.0)	{
@@ -154,6 +173,8 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 		Vector3d translatevec(0,0,0);
 		if (v->getVec3(translatevec[0], translatevec[1], translatevec[2], 0.0)) {
 			node->matrix.translate(translatevec);
+		}else{
+			PRINTB("WARNING: Unable to convert TRANSLATE parameter %s to a vec3 or vec2 of numbers, %s", v->toString() % inst->location().toString());
 		}
 	}
 	else if (this->type == transform_type_e::MULTMATRIX) {
