@@ -1,4 +1,5 @@
 #include "printutils.h"
+#include "boost-utils.h"
 #include <sstream>
 #include <stdio.h>
 #include <boost/algorithm/string.hpp>
@@ -14,6 +15,7 @@ std::string OpenSCAD::debug("");
 bool OpenSCAD::quiet = false;
 
 boost::circular_buffer<std::string> lastmessages(5);
+std::string mainFilename("");
 std::string currentFilename("");
 
 void set_output_handler(OutputHandlerFunc *newhandler, void *userdata)
@@ -63,12 +65,46 @@ void PRINT_NOCACHE(const std::string &msg)
 		if (i == 5) return; // Suppress output after 5 equal ERROR or WARNING outputs.
 		else lastmessages.push_back(msg);
 	}
-
-	if (boost::starts_with(msg, "FILENAME")) {
-		if (currentFilename == msg){
+	if (boost::starts_with(msg, "MAINFILENAME")) {
+		auto name = msg.substr(strlen("MAINFILENAME: "));
+		if (mainFilename == name){
 			return;
 		}
-		currentFilename = msg;
+		mainFilename = name;
+		std::string message =  boost::str(boost::format("FILENAME: %s (mainfile)") % boost::filesystem::path(mainFilename).filename());
+		fprintf(stderr, "%s\n", message.c_str());
+		if (!OpenSCAD::quiet){
+			if (!outputhandler) {
+				fprintf(stderr, "%s\n", message.c_str());
+			} else {
+				outputhandler(message, outputhandler_data);
+			}
+		}
+		return;
+	}
+	if (boost::starts_with(msg, "FILENAME")) {
+		auto name = msg.substr(strlen("FILENAME: "));
+		if (currentFilename == name){
+			return;
+		}
+		currentFilename = name;
+		std::string message = boost::str(
+			boost::format("FILENAME: %s") %
+			boostfs_uncomplete(currentFilename,boost::filesystem::path(mainFilename).parent_path().generic_string()).generic_string()
+			);
+			fprintf(stderr, "A: %s\n", currentFilename.c_str());
+			fprintf(stderr, "B: %s\n", mainFilename.c_str());
+			fprintf(stderr, "C: %s\n", boost::filesystem::path(mainFilename).parent_path().c_str());
+			fprintf(stderr, "D: %s\n", boostfs_uncomplete(currentFilename,boost::filesystem::path(mainFilename).parent_path().generic_string()).generic_string().c_str());
+			fprintf(stderr, "E: %s\n", message.c_str());
+		if (!OpenSCAD::quiet){
+			if (!outputhandler) {
+				fprintf(stderr, "%s\n", message.c_str());
+			} else {
+				outputhandler(message, outputhandler_data);
+			}
+		}
+		return;
 	}
 
 	if (!OpenSCAD::quiet || boost::starts_with(msg, "ERROR")) {

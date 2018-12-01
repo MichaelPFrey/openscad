@@ -1844,6 +1844,8 @@ bool MainWindow::fileChangedOnDisk()
 */
 void MainWindow::compileTopLevelDocument(bool rebuildParameterWidget)
 {
+	PRINTB("MAINFILENAME: %s", fileName.toStdString());
+
 	if (Feature::ExperimentalCustomizer.is_enabled()) {
 		this->parameterWidget->setEnabled(false);
 	}
@@ -2903,11 +2905,7 @@ void MainWindow::consoleOutput(const QString &msg)
 		this->compileErrors++;
 		this->console->appendHtml("<span style=\"color: black; background-color: #ffb0b0;\">" + QT_HTML_ESCAPE(QString(msg)) + "</span>");
 	} else if (msg.startsWith("FILENAME:")) {
-		//fileName
-		QDir dir(fileName);
-		QString name = msg.mid(strlen("FILENAME: "));
-		QString unc = dir.relativeFilePath(name);
-		this->console->appendHtml("<b>" + QT_HTML_ESCAPE(QString(unc)) + "</b>");
+		this->console->appendHtml("<b>" + QT_HTML_ESCAPE(QString(msg)) + "</b>");
 	} else {
 		QString qmsg = msg;
 		if(qmsg.contains('\t') && !qmsg.contains("<pre>", Qt::CaseInsensitive))
