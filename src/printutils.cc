@@ -14,6 +14,7 @@ std::string OpenSCAD::debug("");
 bool OpenSCAD::quiet = false;
 
 boost::circular_buffer<std::string> lastmessages(5);
+std::string currentFilename("");
 
 void set_output_handler(OutputHandlerFunc *newhandler, void *userdata)
 {
@@ -61,6 +62,13 @@ void PRINT_NOCACHE(const std::string &msg)
 		}
 		if (i == 5) return; // Suppress output after 5 equal ERROR or WARNING outputs.
 		else lastmessages.push_back(msg);
+	}
+
+	if (boost::starts_with(msg, "FILENAME")) {
+		if (currentFilename == msg){
+			return;
+		}
+		currentFilename = msg;
 	}
 
 	if (!OpenSCAD::quiet || boost::starts_with(msg, "ERROR")) {
@@ -123,4 +131,5 @@ void resetSuppressedMessages()
 {
 	printedDeprecations.clear();
 	lastmessages.clear();
+	currentFilename="";
 }

@@ -143,6 +143,7 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 				x *= sn, y *= sn, z *= sn;
 			}
 		}else{
+			PRINTB("FILENAME: %s", inst->location().fileName());
 			PRINTB("WARNING: Unable to convert mirror(%s) parameter to a vec3 or vec2 of numbers, %s", val_v->toEchoString() % inst->location().toString());
 		}
 
@@ -161,6 +162,7 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 		if (v->getVec3(translatevec[0], translatevec[1], translatevec[2], 0.0)) {
 			node->matrix.translate(translatevec);
 		}else{
+			PRINTB("FILENAME: %s", inst->location().fileName());
 			PRINTB("WARNING: Unable to convert translate(%s) parameter to a vec3 or vec2 of numbers, %s", v->toEchoString() % inst->location().toString());
 		}
 	}
