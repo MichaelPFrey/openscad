@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>633</width>
-    <height>457</height>
+    <width>907</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,49 +33,15 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>599</width>
-        <height>610</height>
+        <width>887</width>
+        <height>675</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_7" columnstretch="0,0">
        <item row="24" column="0" colspan="2">
         <layout class="QGridLayout" name="gridLayout_10">
-         <item row="7" column="2">
-          <widget class="QLabel" name="labelAxisTrim3">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone6">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.050000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="labelAxisTrim0">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="0" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis3">
+         <item row="12" column="4" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis7">
            <property name="minimum">
             <number>-100</number>
            </property>
@@ -84,6 +50,221 @@
            </property>
            <property name="format">
             <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLabel" name="labelAxisDeadzone1">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="10">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim2">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6">
+          <widget class="QLabel" name="labelAxisTrim1">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="6">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim1">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="2">
+          <widget class="QLabel" name="labelAxisTrim6">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="8" rowspan="2">
+          <widget class="QLabel" name="labelAxis2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+2</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="9">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone8">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.050000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="11">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_8">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="0" colspan="3">
+          <widget class="QPushButton" name="pushButtonAxisTrimReset">
+           <property name="text">
+            <string>Reset Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="7">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_7">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="labelAxisTrim0_2">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Gain</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0" rowspan="2">
+          <widget class="QLabel" name="labelAxis6">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+6</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="4" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis1">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="format">
+            <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" rowspan="2">
+          <widget class="QLabel" name="labelAxis3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+3</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="2">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim6">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="5">
+          <widget class="QLabel" name="labelAxisDeadzone7">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="6">
+          <widget class="QLabel" name="labelAxisTrim7">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
            </property>
           </widget>
          </item>
@@ -97,15 +278,8 @@
            </property>
           </widget>
          </item>
-         <item row="13" column="0" colspan="3">
-          <widget class="QPushButton" name="pushButtonAxisTrimReset">
-           <property name="text">
-            <string>Reset Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="4">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone1">
+         <item row="8" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone3">
            <property name="correctionMode">
             <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
            </property>
@@ -114,62 +288,179 @@
            </property>
           </widget>
          </item>
-         <item row="12" column="3" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis7">
-           <property name="minimum">
-            <number>-100</number>
-           </property>
-           <property name="value">
-            <number>0</number>
-           </property>
-           <property name="format">
-            <string notr="true">0.00</string>
+         <item row="13" column="8" colspan="3">
+          <widget class="QPushButton" name="pushButtonAxisTrim">
+           <property name="text">
+            <string>Auto Trim Axes</string>
            </property>
           </widget>
          </item>
-         <item row="9" column="3" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis4">
-           <property name="minimum">
-            <number>-100</number>
+         <item row="10" column="10">
+          <widget class="QLabel" name="labelAxisTrim8">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
            </property>
-           <property name="value">
-            <number>0</number>
+           <property name="text">
+            <string>Trim</string>
            </property>
-           <property name="format">
-            <string notr="true">0.00</string>
+          </widget>
+         </item>
+         <item row="8" column="10">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim5">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
            </property>
           </widget>
          </item>
          <item row="1" column="7">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone2">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.050000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone0">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.050000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="6" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis5">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_3">
            <property name="minimum">
-            <number>-100</number>
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <number>0</number>
+            <double>1.000000000000000</double>
            </property>
-           <property name="format">
-            <string notr="true">0.00</string>
+          </widget>
+         </item>
+         <item row="7" column="9">
+          <widget class="QLabel" name="labelAxisDeadzone5">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="3">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_5">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="11">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_9">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="6">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim7">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="4" rowspan="2">
+          <widget class="QLabel" name="labelAxis4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+4</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="QLabel" name="labelAxisDeadzone6">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="9">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone5">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.050000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2">
+          <widget class="QLabel" name="labelAxisTrim3">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="11">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_4">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="6">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim4">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
            </property>
           </widget>
          </item>
@@ -185,28 +476,8 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="5">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim1">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="2">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim6">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="3" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis1">
+         <item row="6" column="0" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis0">
            <property name="minimum">
             <number>-100</number>
            </property>
@@ -218,34 +489,36 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="8">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim2">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+         <item row="0" column="4" rowspan="2">
+          <widget class="QLabel" name="labelAxis1">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="8">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim5">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="6" colspan="3">
-          <widget class="QPushButton" name="pushButtonAxisTrim">
            <property name="text">
-            <string>Auto Trim Axes</string>
+            <string>Axis
+1</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
-         <item row="12" column="6" colspan="3">
+         <item row="10" column="9">
+          <widget class="QLabel" name="labelAxisDeadzone8">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="8" colspan="4">
           <widget class="QProgressBar" name="progressBarAxis8">
            <property name="minimum">
             <number>-100</number>
@@ -258,8 +531,37 @@
            </property>
           </widget>
          </item>
-         <item row="11" column="4">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone7">
+         <item row="0" column="0" rowspan="2">
+          <widget class="QLabel" name="labelAxis0">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="6">
+          <widget class="QLabel" name="labelAxisTrim4">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="9">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone2">
            <property name="correctionMode">
             <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
            </property>
@@ -268,8 +570,21 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone3">
+         <item row="9" column="8" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis5">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="format">
+            <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone0">
            <property name="correctionMode">
             <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
            </property>
@@ -278,8 +593,255 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="4">
+         <item row="8" column="5">
           <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone4">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.050000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="10">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim8">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="labelAxisTrim0">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="8" rowspan="2">
+          <widget class="QLabel" name="labelAxis8">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+8</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="7">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_10">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="8" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis2">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="format">
+            <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="8" rowspan="2">
+          <widget class="QLabel" name="labelAxis5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+5</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="4" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis4">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="format">
+            <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="5">
+          <widget class="QLabel" name="labelAxisDeadzone4">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="12" column="0" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis6">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="format">
+            <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone6">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.050000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="9">
+          <widget class="QLabel" name="labelAxisDeadzone2">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="10">
+          <widget class="QLabel" name="labelAxisTrim2">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="3">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_6">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0" colspan="4">
+          <widget class="QProgressBar" name="progressBarAxis3">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="format">
+            <string notr="true">0.00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLabel" name="labelAxisDeadzone3">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>DeadZone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="4" rowspan="2">
+          <widget class="QLabel" name="labelAxis7">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Axis
+7</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone1">
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+           </property>
+           <property name="singleStep">
+            <double>0.050000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="10">
+          <widget class="QLabel" name="labelAxisTrim5">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Trim</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="5">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone7">
            <property name="correctionMode">
             <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
            </property>
@@ -298,416 +860,115 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="5">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim4">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="8">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim8">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="5">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxTrim7">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.010000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="7">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone8">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.050000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="7">
-          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeadzone5">
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-           </property>
-           <property name="singleStep">
-            <double>0.050000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="12" column="0" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis6">
+         <item row="1" column="3">
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxZoomGain_2">
            <property name="minimum">
-            <number>-100</number>
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>9.990000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <number>0</number>
-           </property>
-           <property name="format">
-            <string notr="true">0.00</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="6" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis2">
-           <property name="minimum">
-            <number>-100</number>
-           </property>
-           <property name="value">
-            <number>0</number>
-           </property>
-           <property name="format">
-            <string notr="true">0.00</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0" colspan="3">
-          <widget class="QProgressBar" name="progressBarAxis0">
-           <property name="minimum">
-            <number>-100</number>
-           </property>
-           <property name="value">
-            <number>0</number>
-           </property>
-           <property name="format">
-            <string notr="true">0.00</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="2">
-          <widget class="QLabel" name="labelAxisTrim6">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QLabel" name="labelAxisDeadzone3">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>DeadZone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="1">
-          <widget class="QLabel" name="labelAxisDeadzone6">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>DeadZone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="4">
-          <widget class="QLabel" name="labelAxisDeadzone7">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>DeadZone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="5">
-          <widget class="QLabel" name="labelAxisTrim7">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="7">
-          <widget class="QLabel" name="labelAxisDeadzone8">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>DeadZone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="8">
-          <widget class="QLabel" name="labelAxisTrim8">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="7">
-          <widget class="QLabel" name="labelAxisDeadzone5">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>DeadZone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="8">
-          <widget class="QLabel" name="labelAxisTrim5">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="4">
-          <widget class="QLabel" name="labelAxisDeadzone4">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>DeadZone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="5">
-          <widget class="QLabel" name="labelAxisTrim4">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Trim</string>
+            <double>1.000000000000000</double>
            </property>
           </widget>
          </item>
          <item row="0" column="7">
-          <widget class="QLabel" name="labelAxisDeadzone2">
+          <widget class="QLabel" name="labelAxisTrim0_3">
            <property name="font">
             <font>
              <pointsize>8</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>DeadZone</string>
+            <string>Gain</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="8">
-          <widget class="QLabel" name="labelAxisTrim2">
+         <item row="0" column="11">
+          <widget class="QLabel" name="labelAxisTrim0_4">
            <property name="font">
             <font>
              <pointsize>8</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>Trim</string>
+            <string>Gain</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="6" rowspan="2">
-          <widget class="QLabel" name="labelAxis2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 2</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" rowspan="2">
-          <widget class="QLabel" name="labelAxis0">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 0</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0" rowspan="2">
-          <widget class="QLabel" name="labelAxis3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 3</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="0" rowspan="2">
-          <widget class="QLabel" name="labelAxis6">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 6</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="6" rowspan="2">
-          <widget class="QLabel" name="labelAxis8">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 8</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="3" rowspan="2">
-          <widget class="QLabel" name="labelAxis7">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 7</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="6" rowspan="2">
-          <widget class="QLabel" name="labelAxis5">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 5</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3" rowspan="2">
-          <widget class="QLabel" name="labelAxis1">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 1</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="3" rowspan="2">
-          <widget class="QLabel" name="labelAxis4">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Axis 4</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="labelAxisDeadzone1">
+         <item row="7" column="11">
+          <widget class="QLabel" name="labelAxisTrim0_5">
            <property name="font">
             <font>
              <pointsize>8</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>DeadZone</string>
+            <string>Gain</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="5">
-          <widget class="QLabel" name="labelAxisTrim1">
+         <item row="10" column="11">
+          <widget class="QLabel" name="labelAxisTrim0_6">
            <property name="font">
             <font>
              <pointsize>8</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>Trim</string>
+            <string>Gain</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="7">
+          <widget class="QLabel" name="labelAxisTrim0_7">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Gain</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="7">
+          <widget class="QLabel" name="labelAxisTrim0_8">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Gain</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="3">
+          <widget class="QLabel" name="labelAxisTrim0_9">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Gain</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="3">
+          <widget class="QLabel" name="labelAxisTrim0_10">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Gain</string>
            </property>
           </widget>
          </item>
@@ -938,7 +1199,7 @@
          <item row="2" column="1">
           <widget class="QComboBox" name="comboBoxTranslationXVPRel">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>1</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
