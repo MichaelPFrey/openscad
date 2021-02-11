@@ -27,6 +27,7 @@
 #include "function.h"
 #include "evalcontext.h"
 #include "expression.h"
+#include "printutils.h"
 
 AbstractFunction::~AbstractFunction()
 {
@@ -41,11 +42,11 @@ UserFunction::~UserFunction()
 {
 }
 
-ValuePtr UserFunction::evaluate(const Context *ctx, const EvalContext *evalctx, const Location &loc) const
+ValuePtr UserFunction::evaluate(const Context *ctx, const EvalContext *evalctx) const
 {
 	if (!expr) return ValuePtr::undefined;
 	Context c(ctx);
-	c.setVariables(definition_arguments, evalctx);
+	c.setVariables(evalctx, definition_arguments);
 	ValuePtr result = expr->evaluate(&c);
 
 	return result;
@@ -82,20 +83,24 @@ public:
 
 	~FunctionTailRecursion() { }
 
-	ValuePtr evaluate(const Context *ctx, const EvalContext *evalctx, const Location &loc) const override {
+	ValuePtr evaluate(const Context *ctx, const EvalContext *evalctx) const override {
 		if (!expr) return ValuePtr::undefined;
 		
 		Context c(ctx);
-		c.setVariables(definition_arguments, evalctx);
+		c.setVariables(evalctx, definition_arguments);
 		
-		EvalContext ec(&c, call->arguments);
+		EvalContext ec(&c, call->arguments, loc);
 		Context tmp(&c);
 		unsigned int counter = 0;
 		while (invert ^ this->op->cond->evaluate(&c)) {
-			tmp.setVariables(definition_arguments, &ec);
+			tmp.setVariables(&ec, definition_arguments);
 			c.apply_variables(tmp);
 			
-			if (counter++ == 1000000) throw RecursionException::create("function", this->name,loc);
+			if (counter++ == 1000000){
+				std::string locs = loc.toRelativeString(ctx->documentPath());
+				PRINTB("ERROR: Recursion detected calling function '%s' %s", this->name % locs);
+				throw RecursionException::create("function", this->name,loc);
+			}
 		}
 		
 		ValuePtr result = endexpr->evaluate(&c);
@@ -126,7 +131,7 @@ BuiltinFunction::~BuiltinFunction()
 {
 }
 
-ValuePtr BuiltinFunction::evaluate(const Context *ctx, const EvalContext *evalctx, const Location &loc) const
+ValuePtr BuiltinFunction::evaluate(const Context *ctx, const EvalContext *evalctx) const
 {
-	return eval_func(ctx, evalctx, loc);
+	return eval_func(ctx, evalctx);
 }

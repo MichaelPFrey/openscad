@@ -74,19 +74,19 @@ Context::~Context()
 	Initialize context from a module argument list and a evaluation context
 	which may pass variables which will be preferred over default values.
 */
-void Context::setVariables(const AssignmentList &args, const EvalContext *evalctx)
+void Context::setVariables(const EvalContext *evalctx, const AssignmentList &args, const AssignmentList &optargs, bool usermodule)
 {
-  // Set any default values
-  for (const auto &arg : args) {
-    set_variable(arg.name, arg.expr ? arg.expr->evaluate(this->parent) : ValuePtr::undefined);
-  }
+	// Set any default values
+	for (const auto &arg : args) {
+		set_variable(arg.name, arg.expr ? arg.expr->evaluate(this->parent) : ValuePtr::undefined);
+	}
 	
-  if (evalctx) {
-		auto assignments = evalctx->resolveArguments(args);
+	if (evalctx) {
+		auto assignments = evalctx->resolveArguments(args, optargs, usermodule && !OpenSCAD::parameterCheck);
 		for (const auto &ass : assignments) {
 			this->set_variable(ass.first, ass.second->evaluate(evalctx));
-    }
-  }
+		}
+	}
 }
 
 void Context::set_variable(const std::string &name, const ValuePtr &value)
@@ -193,17 +193,17 @@ static void print_ignore_warning(const char *what, const char *name, const Locat
 	PRINTB("WARNING: Ignoring unknown %s '%s', %s.", what % name % loc.toRelativeString(docPath));
 }
  
-ValuePtr Context::evaluate_function(const std::string &name, const EvalContext *evalctx, const Location &loc) const
+ValuePtr Context::evaluate_function(const std::string &name, const EvalContext *evalctx) const
 {
-	if (this->parent) return this->parent->evaluate_function(name, evalctx,loc);
-	print_ignore_warning("function", name.c_str(),loc,this->documentPath());
+	if (this->parent) return this->parent->evaluate_function(name, evalctx);
+	print_ignore_warning("function", name.c_str(),evalctx->loc,this->documentPath());
 	return ValuePtr::undefined;
 }
 
-AbstractNode *Context::instantiate_module(const ModuleInstantiation &inst, EvalContext *evalctx, const Location &loc) const
+AbstractNode *Context::instantiate_module(const ModuleInstantiation &inst, EvalContext *evalctx) const
 {
-	if (this->parent) return this->parent->instantiate_module(inst, evalctx, loc);
-	print_ignore_warning("module", inst.name().c_str(),loc,this->documentPath());
+	if (this->parent) return this->parent->instantiate_module(inst, evalctx);
+	print_ignore_warning("module", inst.name().c_str(),evalctx->loc,this->documentPath());
 	return nullptr;
 }
 
@@ -223,33 +223,33 @@ std::string Context::getAbsolutePath(const std::string &filename) const
 #ifdef DEBUG
 std::string Context::dump(const AbstractModule *mod, const ModuleInstantiation *inst)
 {
-	std::stringstream s;
+	std::ostringstream s;
 	if (inst) {
-		s << boost::format("ModuleContext %p (%p) for %s inst (%p)") % this % this->parent % inst->name() % inst;
+		s << boost::format("ModuleContext %p (%p) for %s inst (%p)\n") % this % this->parent % inst->name() % inst;
 	}
 	else {
-		s << boost::format("Context: %p (%p)") % this % this->parent;
+		s << boost::format("Context: %p (%p)\n") % this % this->parent;
 	}
-	s << boost::format("  document path: %s") % this->document_path;
+	s << boost::format("  document path: %s\n") % this->document_path;
 	if (mod) {
 		const UserModule *m = dynamic_cast<const UserModule*>(mod);
 		if (m) {
 			s << "  module args:";
 			for(const auto &arg : m->definition_arguments) {
-				s << boost::format("    %s = %s") % arg.name % variables[arg.name];
+				s << boost::format("    %s = %s\n") % arg.name % variables[arg.name];
 			}
 		}
 	}
 	typedef std::pair<std::string, ValuePtr> ValueMapType;
-	s << "  vars:";
+	s << "  vars:\n";
 	for(const auto &v : constants) {
-		s << boost::format("    %s = %s") % v.first % v.second;
+		s << boost::format("    %s = %s\n") % v.first % v.second->toEchoString();
 	}
 	for(const auto &v : variables) {
-		s << boost::format("    %s = %s") % v.first % v.second;
+		s << boost::format("    %s = %s\n") % v.first % v.second->toEchoString();
 	}
 	for(const auto &v : config_variables) {
-		s << boost::format("    %s = %s") % v.first % v.second;
+		s << boost::format("    %s = %s\n") % v.first % v.second->toEchoString();
 	}
 	return s.str();
 }

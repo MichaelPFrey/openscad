@@ -246,7 +246,8 @@ set(CORE_SOURCES
   src/value.cc 
   src/calc.cc 
   src/hash.cc 
-  src/expr.cc 
+  src/expr.cc
+  src/degree_trig.cc
   src/func.cc 
   src/function.cc 
   src/stackcheck.cc 
@@ -265,6 +266,7 @@ set(CORE_SOURCES
   src/builtincontext.cc
   src/modcontext.cc 
   src/evalcontext.cc 
+  src/version.cc
   src/feature.cc
   src/csgnode.cc 
   src/CSGTreeNormalizer.cc 
@@ -301,6 +303,9 @@ set(CORE_SOURCES
   src/libsvg/group.cc
   src/libsvg/libsvg.cc
   src/libsvg/line.cc
+  src/libsvg/text.cc
+  src/libsvg/tspan.cc
+  src/libsvg/data.cc
   src/libsvg/path.cc
   src/libsvg/polygon.cc
   src/libsvg/polyline.cc
@@ -400,12 +405,14 @@ set(GUI_SOURCES
   src/SettingsWriter.cc
   src/FontListDialog.cc
   src/FontListTableView.cc
+  src/PrintInitDialog.cc
   src/LibraryInfoDialog.cc
   src/OpenCSGWarningDialog.cc
   src/ProgressWidget.cc
   src/AutoUpdater.cc
   src/QGLView.cc
   src/Dock.cc
+  src/Console.cc
   src/UIUtils.cc
   src/scadlexer.cpp
   src/highlighter.cc

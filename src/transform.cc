@@ -31,6 +31,7 @@
 #include "builtin.h"
 #include "value.h"
 #include "printutils.h"
+#include "degree_trig.h"
 #include <sstream>
 #include <vector>
 #include <assert.h>
@@ -80,7 +81,7 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 	}
 
 	Context c(ctx);
-	c.setVariables(args, evalctx);
+	c.setVariables(evalctx, args);
 	inst->scope.apply(*evalctx);
 
 	if (this->type == transform_type_e::SCALE) {
@@ -94,31 +95,38 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 				PRINTB("WARNING: Unable to convert scale(%s) parameter to a number, a vec3 or vec2 of numbers or a number, %s", v->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
 			}
 		}
+		if(OpenSCAD::rangeCheck){
+			if(scalevec[0]==0 || scalevec[1]==0 || scalevec[2]==0 || !std::isfinite(scalevec[0])|| !std::isfinite(scalevec[1])|| !std::isfinite(scalevec[2])){
+				PRINTB("WARNING: scale(%s), %s", v->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
+			}
+		}
 		node->matrix.scale(scalevec);
 	}
 	else if (this->type == transform_type_e::ROTATE) {
 		auto val_a = c.lookup_variable("a");
 		auto val_v = c.lookup_variable("v");
 		if (val_a->type() == Value::ValueType::VECTOR) {
-			Eigen::AngleAxisd rotx(0, Vector3d::UnitX());
-			Eigen::AngleAxisd roty(0, Vector3d::UnitY());
-			Eigen::AngleAxisd rotz(0, Vector3d::UnitZ());
-			double a=0.0;
-			bool ok=true;
+			double sx = 0, sy = 0, sz = 0;
+			double cx = 1, cy = 1, cz = 1;
+			double a = 0.0;
+			bool ok = true;
 			if (val_a->toVector().size() > 0) {
 				ok &= val_a->toVector()[0]->getDouble(a);
 				ok &= !std::isinf(a) && !std::isnan(a);
-				rotx = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitX());
+				sx = sin_degrees(a);
+				cx = cos_degrees(a);
 			}
 			if (val_a->toVector().size() > 1) {
 				ok &= val_a->toVector()[1]->getDouble(a);
 				ok &= !std::isinf(a) && !std::isnan(a);
-				roty = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitY());
+				sy = sin_degrees(a);
+				cy = cos_degrees(a);
 			}
 			if (val_a->toVector().size() > 2) {
 				ok &= val_a->toVector()[2]->getDouble(a);
 				ok &= !std::isinf(a) && !std::isnan(a);
-				rotz = Eigen::AngleAxisd(a*M_PI/180, Vector3d::UnitZ());
+				sz = sin_degrees(a);
+				cz = cos_degrees(a);
 			}
 			if (val_a->toVector().size() > 3) {
 				ok &= false;
@@ -136,22 +144,19 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 					PRINTB("WARNING: Problem converting rotate(a=%s) parameter, %s", val_a->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
 				}
 			}
-			
-			node->matrix.rotate(rotz * roty * rotx);
+			Matrix3d M;
+			M <<  cy * cz,  cz * sx * sy - cx * sz,   cx * cz * sy + sx * sz,
+			      cy * sz,  cx * cz + sx * sy * sz,  -cz * sx + cx * sy * sz,
+			     -sy,       cy * sx,                  cx * cy;
+			node->matrix.rotate(M);
 		} else {
 			double a = 0.0;
 			bool aConverted = val_a->getDouble(a);
 			aConverted &= !std::isinf(a) && !std::isnan(a);
-			Vector3d axis(0, 0, 1);
-			bool vConverted = val_v->getVec3(axis[0], axis[1], axis[2], 0.0);
-			if (vConverted) {
-				if (axis.squaredNorm() > 0) axis.normalize();
-			}
 
-			if (axis.squaredNorm() > 0) {
-				node->matrix = Eigen::AngleAxisd(a*M_PI/180, axis);
-			}
-			
+			Vector3d v(0, 0, 1);
+			bool vConverted = val_v->getVec3(v[0], v[1], v[2], 0.0);
+			node->matrix.rotate(angle_axis_degrees(aConverted ? a : 0, v));
 			if(val_v != ValuePtr::undefined && ! vConverted){
 				if(aConverted){
 					PRINTB("WARNING: Problem converting rotate(..., v=%s) parameter, %s", val_v->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
@@ -188,7 +193,9 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 	else if (this->type == transform_type_e::TRANSLATE)	{
 		auto v = c.lookup_variable("v");
 		Vector3d translatevec(0,0,0);
-		if (v->getVec3(translatevec[0], translatevec[1], translatevec[2], 0.0)) {
+		bool ok = v->getVec3(translatevec[0], translatevec[1], translatevec[2], 0.0);
+		ok &= std::isfinite(translatevec[0]) && std::isfinite(translatevec[1]) && std::isfinite(translatevec[2]) ;
+		if (ok) {
 			node->matrix.translate(translatevec);
 		}else{
 			PRINTB("WARNING: Unable to convert translate(%s) parameter to a vec3 or vec2 of numbers, %s", v->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
@@ -218,7 +225,7 @@ AbstractNode *TransformModule::instantiate(const Context *ctx, const ModuleInsta
 
 std::string TransformNode::toString() const
 {
-	std::stringstream stream;
+	std::ostringstream stream;
 
 	stream << "multmatrix([";
 	for (int j=0;j<4;j++) {

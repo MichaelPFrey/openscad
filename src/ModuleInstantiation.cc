@@ -1,7 +1,10 @@
 #include "ModuleInstantiation.h"
 #include "evalcontext.h"
 #include "expression.h"
+#include "exceptions.h"
+#include "printutils.h"
 #include <boost/filesystem.hpp>
+
 namespace fs = boost::filesystem;
 
 ModuleInstantiation::~ModuleInstantiation()
@@ -69,15 +72,22 @@ void IfElseModuleInstantiation::print(std::ostream &stream, const std::string &i
 
 AbstractNode *ModuleInstantiation::evaluate(const Context *ctx) const
 {
-	EvalContext c(ctx, this->arguments, &this->scope);
+	EvalContext c(ctx, this->arguments, this->loc, &this->scope);
 
 #if 0 && DEBUG
 	PRINT("New eval ctx:");
 	c.dump(nullptr, this);
 #endif
-
-	AbstractNode *node = ctx->instantiate_module(*this, &c, loc); // Passes c as evalctx
-	return node;
+	try{
+		AbstractNode *node = ctx->instantiate_module(*this, &c); // Passes c as evalctx
+		return node;
+	}catch(EvaluationException &e){
+		if(e.traceDepth>0){
+			PRINTB("TRACE: called by '%s', %s.", name() % this->loc.toRelativeString(ctx->documentPath()));
+			e.traceDepth--;
+		}
+		throw;
+	}
 }
 
 std::vector<AbstractNode*> ModuleInstantiation::instantiateChildren(const Context *evalctx) const

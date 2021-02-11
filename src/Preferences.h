@@ -25,11 +25,13 @@ public:
 	QVariant getValue(const QString &key) const;
 	void init();
 	void apply() const;
+	void updateGUI();
 	void fireEditorConfigChanged() const;
 
 public slots:
 	void actionTriggered(class QAction *);
 	void featuresCheckBoxToggled(bool);
+	void on_stackedWidget_currentChanged(int);
 	void on_colorSchemeChooser_itemSelectionChanged();
 	void on_fontChooser_activated(const QString &);
 	void on_fontSize_currentIndexChanged(const QString &);
@@ -52,8 +54,11 @@ public slots:
 	void on_launcherBox_toggled(bool);
 	void on_editorType_currentIndexChanged(int);
 	void on_enableSoundOnRenderCompleteCheckBox_toggled(bool);
-
+	void on_enableHardwarningsCheckBox_toggled(bool);
+	void on_enableParameterCheckBox_toggled(bool);
+	void on_enableRangeCheckBox_toggled(bool);
 	void on_checkBoxShowWarningsIn3dView_toggled(bool);
+	void on_checkBoxMouseCentricZoom_toggled(bool);
   //
 	// editor settings
   //
@@ -80,6 +85,19 @@ public slots:
 	void on_checkBoxEnableBraceMatching_toggled(bool);
 	void on_checkBoxEnableLineNumbers_toggled(bool);
 
+	// Print
+	void on_checkBoxShowPrintServiceSelectionDialog_toggled(bool);
+	void on_pushButtonOctoPrintCheckConnection_clicked();
+	void on_pushButtonOctoPrintSlicingEngine_clicked();
+	void on_comboBoxOctoPrintSlicingEngine_activated(int);
+	void on_pushButtonOctoPrintSlicingProfile_clicked();
+	void on_comboBoxOctoPrintSlicingProfile_activated(int);
+	void on_comboBoxOctoPrintAction_activated(int);
+	void on_comboBoxOctoPrintFileFormat_activated(int);
+	void on_lineEditOctoPrintURL_editingFinished();
+	void on_lineEditOctoPrintApiKey_editingFinished();
+	void on_pushButtonOctoPrintApiKey_clicked();
+
 signals:
 	void requestRedraw() const;
 	void updateMdiMode(bool mdi) const;
@@ -92,14 +110,17 @@ signals:
 	void editorTypeChanged(const QString &type);
 	void editorConfigChanged() const;
 	void ExperimentalChanged() const ;
+	void updateMouseCentricZoom(bool state) const;
 
 private:
     Preferences(QWidget *parent = nullptr);
 	void keyPressEvent(QKeyEvent *e) override;
-	void updateGUI();
+	void showEvent(QShowEvent *e) override;
+	void closeEvent(QCloseEvent *e) override;
 	void removeDefaultSettings();
 	void setupFeaturesPage();
 	void writeSettings();
+	void hidePasswords();
 	void addPrefPage(QActionGroup *group, QAction *action, QWidget *widget);
 
 	/** Initialize combobox list values from the settings range values */

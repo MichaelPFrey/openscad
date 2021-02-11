@@ -112,8 +112,8 @@ mingw* {
   debug: QMAKE_CXXFLAGS += -O1
 }
 
-CONFIG += qt
-QT += widgets concurrent multimedia
+CONFIG += qt object_parallel_to_source
+QT += widgets concurrent multimedia network
 
 netbsd* {
    QMAKE_LFLAGS += -L/usr/X11R7/lib
@@ -218,16 +218,18 @@ RESOURCES = openscad.qrc
 # Qt5 removed access to the QMAKE_UIC variable, the following
 # way works for both Qt4 and Qt5
 load(uic)
-uic.commands += -tr _
+uic.commands += -tr q_
 
 FORMS   += src/MainWindow.ui \
            src/Preferences.ui \
            src/OpenCSGWarningDialog.ui \
            src/AboutDialog.ui \
            src/FontListDialog.ui \
+           src/PrintInitDialog.ui \
            src/ProgressWidget.ui \
            src/launchingscreen.ui \
            src/LibraryInfoDialog.ui \
+           src/Console.ui \
            src/parameter/ParameterWidget.ui \
            src/parameter/ParameterEntryWidget.ui \
            src/input/ButtonConfigWidget.ui \
@@ -315,6 +317,7 @@ HEADERS += src/version_check.h \
            src/colornode.h \
            src/rendernode.h \
            src/textnode.h \
+           src/version.h \
            src/openscad.h \
            src/handle_dep.h \
            src/Geometry.h \
@@ -356,6 +359,7 @@ HEADERS += src/version_check.h \
            src/CsgInfo.h \
            \
            src/Dock.h \
+           src/Console.h \
            src/AutoUpdater.h \
            src/launchingscreen.h \
            src/legacyeditor.h \
@@ -390,6 +394,9 @@ SOURCES += \
            src/libsvg/circle.cc \
            src/libsvg/ellipse.cc \
            src/libsvg/line.cc \
+           src/libsvg/text.cc \
+           src/libsvg/tspan.cc \
+           src/libsvg/data.cc \
            src/libsvg/polygon.cc \
            src/libsvg/polyline.cc \
            src/libsvg/rect.cc \
@@ -409,6 +416,7 @@ SOURCES += \
            src/handle_dep.cc \
            src/value.cc \
            src/stackcheck.cc \
+           src/degree_trig.cc \
            src/func.cc \
            src/localscope.cc \
            src/feature.cc \
@@ -501,12 +509,14 @@ SOURCES += \
            src/system-gl.cc \
            src/imageutils.cc \
            \
+           src/version.cc \
            src/openscad.cc \
            src/mainwin.cc \
            src/OpenSCADApp.cc \
            src/WindowManager.cc \
            src/UIUtils.cc \
            src/Dock.cc \
+           src/Console.cc \
            src/FontListDialog.cc \
            src/FontListTableView.cc \
            src/launchingscreen.cc \
@@ -569,6 +579,11 @@ HEADERS += src/ext/libtess2/Include/tesselator.h \
            src/ext/libtess2/Source/priorityq.h \
            src/ext/libtess2/Source/sweep.h \
            src/ext/libtess2/Source/tess.h
+
+has_qt5 {
+  HEADERS += src/Network.h src/NetworkSignal.h src/PrintService.h src/OctoPrint.h src/PrintInitDialog.h
+  SOURCES += src/PrintService.cc src/OctoPrint.cc src/PrintInitDialog.cc
+}
 
 has_qt5:unix:!macx {
   QT += dbus

@@ -33,6 +33,7 @@
 #include "printutils.h"
 #include "context.h"
 #include "calc.h"
+#include "degree_trig.h"
 #include <sstream>
 #include <assert.h>
 #include <cmath>
@@ -145,6 +146,7 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 	node->x = node->y = node->z = node->h = node->r1 = node->r2 = 1;
 
 	AssignmentList args;
+	AssignmentList optargs;
 
 	switch (this->type) {
 	case primitive_type_e::CUBE:
@@ -152,9 +154,11 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		break;
 	case primitive_type_e::SPHERE:
 		args += Assignment("r");
+		optargs += Assignment("d");
 		break;
 	case primitive_type_e::CYLINDER:
 		args += Assignment("h"), Assignment("r1"), Assignment("r2"), Assignment("center");
+		optargs += Assignment("r"),  Assignment("d"), Assignment("d1"),  Assignment("d2");
 		break;
 	case primitive_type_e::POLYHEDRON:
 		args += Assignment("points"), Assignment("faces"), Assignment("convexity");
@@ -164,6 +168,7 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		break;
 	case primitive_type_e::CIRCLE:
 		args += Assignment("r");
+		optargs += Assignment("d");
 		break;
 	case primitive_type_e::POLYGON:
 		args += Assignment("points"), Assignment("paths"), Assignment("convexity");
@@ -173,7 +178,7 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 	}
 
 	Context c(ctx);
-	c.setVariables(args, evalctx);
+	c.setVariables(evalctx, args, optargs);
 
 	node->fn = c.lookup_variable("$fn")->toDouble();
 	node->fs = c.lookup_variable("$fs")->toDouble();
@@ -200,6 +205,13 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 			converted |= size->getVec3(node->x, node->y, node->z);
 			if(!converted){
 				PRINTB("WARNING: Unable to convert cube(size=%s, ...) parameter to a number or a vec3 of numbers, %s", size->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
+			}else if(OpenSCAD::rangeCheck){
+				bool ok = (node->x > 0) && (node->y > 0) && (node->z > 0);
+				ok &= std::isfinite(node->x) && std::isfinite(node->y) && std::isfinite(node->z);
+				if(!ok){
+					PRINTB("WARNING: cube(size=%s, ...), %s",
+						size->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
+				}
 			}
 		}
 		if (center->type() == Value::ValueType::BOOL) {
@@ -211,6 +223,10 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		const auto r = lookup_radius(c, inst->location(), "d", "r");
 		if (r.type() == Value::ValueType::NUMBER) {
 			node->r1 = r.toDouble();
+			if (OpenSCAD::rangeCheck && (node->r1 <= 0 || !std::isfinite(node->r1))){
+				PRINTB("WARNING: sphere(r=%d), %s",
+					node->r1 % inst->location().toRelativeString(ctx->documentPath()));
+			}
 		}
 		break;
 	}
@@ -223,6 +239,12 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		const auto r = lookup_radius(c, inst->location(), "d", "r");
 		const auto r1 = lookup_radius(c, inst->location(), "d1", "r1");
 		const auto r2 = lookup_radius(c, inst->location(), "d2", "r2");
+		if(r.type() == Value::ValueType::NUMBER && 
+			(r1.type() == Value::ValueType::NUMBER || r2.type() == Value::ValueType::NUMBER)
+			){
+				PRINTB("WARNING: Cylinder parameters ambiguous, %s", inst->location().toRelativeString(ctx->documentPath()));
+		}
+
 		if (r.type() == Value::ValueType::NUMBER) {
 			node->r1 = r.toDouble();
 			node->r2 = r.toDouble();
@@ -233,7 +255,18 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		if (r2.type() == Value::ValueType::NUMBER) {
 			node->r2 = r2.toDouble();
 		}
-		
+
+		if(OpenSCAD::rangeCheck){
+			if (node->h <= 0 || !std::isfinite(node->h)){
+				PRINTB("WARNING: cylinder(h=%d, ...), %s",
+					node->h % inst->location().toRelativeString(ctx->documentPath()));
+			}
+			if (node->r1 < 0 || node->r2 < 0 || (node->r1 == 0 && node->r2 == 0) || !std::isfinite(node->r1) || !std::isfinite(node->r2)){
+				PRINTB("WARNING: cylinder(r1=%d, r2=%d, ...), %s",
+					node->r1 % node->r2 % inst->location().toRelativeString(ctx->documentPath()));
+			}
+		}
+
 		auto center = c.lookup_variable("center");
 		if (center->type() == Value::ValueType::BOOL) {
 			node->center = center->toBool();
@@ -262,6 +295,14 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 			converted |= size->getVec2(node->x, node->y);
 			if(!converted){
 				PRINTB("WARNING: Unable to convert square(size=%s, ...) parameter to a number or a vec2 of numbers, %s", size->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
+			}else if(OpenSCAD::rangeCheck){
+				bool ok = true;
+				ok &= (node->x > 0) && (node->y > 0);
+				ok &= std::isfinite(node->x) && std::isfinite(node->y);
+				if(!ok){
+					PRINTB("WARNING: square(size=%s, ...), %s",
+						size->toEchoString() % inst->location().toRelativeString(ctx->documentPath()));
+				}
 			}
 		}
 		if (center->type() == Value::ValueType::BOOL) {
@@ -273,6 +314,10 @@ AbstractNode *PrimitiveModule::instantiate(const Context *ctx, const ModuleInsta
 		const auto r = lookup_radius(c, inst->location(), "d", "r");
 		if (r.type() == Value::ValueType::NUMBER) {
 			node->r1 = r.toDouble();
+			if (OpenSCAD::rangeCheck && ((node->r1 <= 0) || !std::isfinite(node->r1))){
+				PRINTB("WARNING: circle(r1=%d), %s",
+					node->r1 % inst->location().toRelativeString(ctx->documentPath()));
+			}
 		}
 		break;
 	}
@@ -296,9 +341,9 @@ struct point2d {
 static void generate_circle(point2d *circle, double r, int fragments)
 {
 	for (int i=0; i<fragments; i++) {
-		double phi = (M_PI*2*i) / fragments;
-		circle[i].x = r*cos(phi);
-		circle[i].y = r*sin(phi);
+		double phi = (360.0 * i) / fragments;
+		circle[i].x = r * cos_degrees(phi);
+		circle[i].y = r * sin_degrees(phi);
 	}
 }
 
@@ -387,10 +432,10 @@ const Geometry *PrimitiveNode::createGeometry() const
 
 //		double offset = 0.5 * ((fragments / 2) % 2);
 			for (int i = 0; i < rings; i++) {
-//			double phi = (M_PI * (i + offset)) / (fragments/2);
-				double phi = (M_PI * (i + 0.5)) / rings;
-				double r = r1 * sin(phi);
-				ring[i].z = r1 * cos(phi);
+//			double phi = (180.0 * (i + offset)) / (fragments/2);
+				double phi = (180.0 * (i + 0.5)) / rings;
+				double r = r1 * sin_degrees(phi);
+				ring[i].z = r1 * cos_degrees(phi);
 				ring[i].points = new point2d[fragments];
 				generate_circle(ring[i].points, r, fragments);
 			}
@@ -516,7 +561,7 @@ const Geometry *PrimitiveNode::createGeometry() const
 				if (pt < this->points->toVector().size()) {
 					double px, py, pz;
 					if (!this->points->toVector()[pt]->getVec3(px, py, pz, 0.0) ||
-					    std::isinf(px) || std::isinf(py) || std::isinf(pz)) {
+					    !std::isfinite(px) || !std::isfinite(py) || !std::isfinite(pz)) {
 						PRINTB("ERROR: Unable to convert point at index %d to a vec3 of numbers, %s", j % this->modinst->location().toRelativeString(this->document_path));
 						return p;
 					}
@@ -554,8 +599,8 @@ const Geometry *PrimitiveNode::createGeometry() const
 			Outline2d o;
 			o.vertices.resize(fragments);
 			for (int i=0; i < fragments; i++) {
-				double phi = (M_PI*2*i) / fragments;
-				o.vertices[i] = {this->r1*cos(phi), this->r1*sin(phi)};
+				double phi = (360.0 * i) / fragments;
+				o.vertices[i] = {this->r1 * cos_degrees(phi), this->r1 * sin_degrees(phi)};
 			}
 			p->addOutline(o);
 		}
@@ -607,7 +652,7 @@ const Geometry *PrimitiveNode::createGeometry() const
 
 std::string PrimitiveNode::toString() const
 {
-	std::stringstream stream;
+	std::ostringstream stream;
 
 	stream << this->name();
 
